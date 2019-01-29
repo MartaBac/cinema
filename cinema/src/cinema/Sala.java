@@ -3,12 +3,12 @@ package cinema;
 import java.util.HashMap;
 import java.util.Map;
 
-public class sala {
-	private String cinemaId, name, usableSeats;
+public class Sala {
+	private String cinemaId, salaId, name, usableSeats;
 	private Integer capacity,rows,columns;
 
 	
-public sala(String cinemaId, String name, String usableSeats, Integer cap, Integer rows,
+public Sala(String cinemaId, String name, String usableSeats, Integer cap, Integer rows,
 			Integer col) {
 	int length;
 	this.setCinemaId(cinemaId);
@@ -17,6 +17,7 @@ public sala(String cinemaId, String name, String usableSeats, Integer cap, Integ
 	this.setCapacity(cap);
 	this.setRows(rows);
 	this.columns = col;
+	this.setSalaId(cinemaId + name);
 	length = usableSeats.length();
 	if (length % columns != 0 || (columns*rows) != length||(columns*rows) != capacity ) 
 	{ 
@@ -86,5 +87,18 @@ public String getCinemaId() {
 
 public void setCinemaId(String cinemaId) {
 	this.cinemaId = cinemaId;
+}
+
+public String getSalaId() {
+	return salaId;
+}
+
+public void setSalaId(String salaId) {
+	this.salaId = salaId;
+}
+
+public void printInfo(){
+	System.out.println(salaId + "//" + cinemaId  + "//" + name + "//" + usableSeats + "//" +
+				capacity + "//" + rows + "//" + columns);
 }
 }
