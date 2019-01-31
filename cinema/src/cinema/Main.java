@@ -23,7 +23,7 @@ public class Main {
 		System.out.println("Creato");
 		System.out.println("Creo account Cassiere");
 		s.addNewUser(new Cassiere("cassiere1", "gio", "pozzi", "i@o.it", "22/11/1980",
-				"kkoopp", true, "+398888888", true));
+				"kkoopp", true, "+398888888"));
 		System.out.println("Creato");
 		System.out.println("Creo account Cliente");
 		s.addNewUser(new ClienteRegistrato("utente1", "gio", "pozzi", "i@o.it", "22/11/1980",
@@ -43,6 +43,36 @@ public class Main {
 		s.printCinemaList();
 		System.out.println(c.getIdCinema());
 		s.addNewSala(c.getIdCinema(), "sala1", "111110111111" , 12, 2, 6);
+		
+		System.out.println("Dipendente attivo?" );
+		s.showActiveOrNotEmployee("NickName1", true);
+		System.out.println("Cassiere inattivo?" );
+		s.showActiveOrNotEmployee("NickName1", false);
+		s.changeEmployeeStatus("NickName1", "cassiere1", false);
+		
+		System.out.println("Disattivo cassiere - dipendente inattivo?" );
+		s.showActiveOrNotEmployee("NickName1", false);
+		System.out.println("Attivi?");
+		s.showActiveOrNotEmployee("NickName1", true);
+		System.out.println("Reset");
+		
+		s.changeEmployeeStatus("NickName1", "cassiere1", true);
+		System.out.println("Attivi?");
+		s.showActiveOrNotEmployee("NickName1", true);
+		System.out.println("Inattivi?");
+		s.showActiveOrNotEmployee("NickName1", false);
+		
+		System.out.println("Chiedo lista attivi essendo manager");
+		s.showActiveOrNotEmployee("manager1", true);
+		System.out.println("Chiedo lista inattivi essendo manager");
+		s.showActiveOrNotEmployee("manager1", false);
+		System.out.println("Chiedo lista attivi essendo utente");
+		s.showActiveOrNotEmployee("utente1", true);
+		System.out.println("Chiedo lista attivi essendo non registrato");
+		s.showActiveOrNotEmployee("kk", true);
+		s.showActiveOrNotEmployee(null, true);
+		
+		
 		
 
 		/*

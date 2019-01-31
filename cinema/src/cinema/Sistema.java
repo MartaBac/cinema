@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
+
 public class Sistema {
 		 
 	private static  HashMap<String, Utente> listaUtenti;
@@ -117,9 +118,6 @@ public class Sistema {
 		return Arrays.asList(listaUtenti).toString();
 	}
 	
-	public void disableEmployee(String idEmployee){
-		
-	}
 	
 	public void addNewFilm(Film f){
 		
@@ -163,6 +161,54 @@ public class Sistema {
 		return false;
 	}
 	
+	public 	boolean changeEmployeeStatus(String idMio, String idUtente, boolean a){
+		Utente m = Sistema.listaUtenti.get(idMio);
+		Utente u = Sistema.listaUtenti.get(idUtente);
+		
+		/*
+		 *  L'operazione può avvenire solo su utenti 'cassiere' o 'gestorecinema' da parte
+		 *  di un utente con permessi maggiori
+		 */
+		if(m == null || u == null ){
+			System.out.println("Operazione non consentita.");
+			return false;
+			
+			//TODO: refactor
+		}else if(m.permesso.getPermission()<=1){
+			System.out.println("Permessi insufficienti");
+			return false;
+		}else if(m.permesso.getPermission()>u.permesso.getPermission()){
+			this.listaUtenti.get(idUtente).setStatus(a);
+			}else{
+				System.out.println("Permessi insufficienti");
+				return false;
+			}	
+		return true;
+	}
+	
+	// Permette di visualizzare la lista dei propri impiegati attivi o inattivi
+	public void showActiveOrNotEmployee(String myid, boolean active){
+		Utente u;
+		if(listaUtenti.get(myid)==null){
+			System.out.println("Utente non esistente");
+			return;
+		}
+		Permesso mio = listaUtenti.get(myid).permesso;
+		if(mio.getPermission()<=1){
+			System.out.println("Permessi insufficienti");
+			return;
+		}else{
+			Iterator<Utente> i = listaUtenti.values().iterator();
+			while(i.hasNext()){
+				u = i.next();
+				
+				// Per ogni impiegato attivo che sia 'al di sotto' del richiedente come gerarchia
+				if(u.getStatus() == active && u.permesso.getPermission()<mio.getPermission()){
+					System.out.println(u.getNickname() + ": " + " " + u.getName() + " " + u.getSurname());				
+				}
+			}
+		}
+	}
 	/**
 	 * Returns a ListaCinemaIterator over the list of Cinema of the GestoreCinema
 	 * specified by the username passed as input.
