@@ -41,6 +41,34 @@ public class Cinema {
 		
 	}
 	
+	public void printBaseInfo(){
+		System.out.println("Nome: " + nome + "; Città: " + citta);	
+	}
+	
+public Integer compareTag(String[] t){
+		
+		int[] count = new int[]{0,0,0};
+		// Pesi da rivalutare
+		int[] weight = new int[]{100,50,20};
+		int point = 0;
+		Comparator c = new Comparator();
+		
+		// Implementare algoritmo per trovare le corrispondenze migliori		
+		//Per ogni parola ricercata
+		for(String e : t){
+			if(e == null)
+				continue;
+			count[0] = count[0] + c.Compare(e, this.nome);
+			count[1] = count[1] + c.Compare(e, this.citta);
+			count[2] = count[2] + c.Compare(e, this.indirizzo);
+	}	
+
+	for(int j=0; j<count.length; j++){
+		point = point + (count[j]*weight[j]);
+	}		
+		return point;
+	}
+	
 	@Override
 	public String toString() {
 		return nome;

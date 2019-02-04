@@ -106,7 +106,7 @@ public class Sistema {
 		Collections.sort(list, new Comparator<Entry<String, Integer>>(){
 
 			@Override
-			public int compare(Map.Entry<String, Integer> arg0, Map.Entry<String, Integer> arg1) {
+			public int compare(Map.Entry<String, Integer> arg1, Map.Entry<String, Integer> arg0) {
 				return arg0.getValue().compareTo(arg1.getValue());
 			}
 		});
@@ -125,9 +125,40 @@ public class Sistema {
 		return true;
 	}
 	
-	public boolean searchCinema(){
+	public boolean searchCinema(String[] tag){
+		Integer score = null;
+		HashMap<String, Integer> scoredCinema = new HashMap<String, Integer>();
 		
-		return false;
+		for(Cinema c : listaCinema.values()){
+			System.out.println("Comparazione tag: "+tag.length);
+			score = c.compareTag(tag);
+			scoredCinema.put(c.getIdCinema(), score);
+			score = null;
+		}
+
+		List<Entry<String,Integer>> list = new LinkedList<Map.Entry<String, 
+				Integer>>(scoredCinema.entrySet());
+		
+		//Sorting the list
+		Collections.sort(list, new Comparator<Entry<String, Integer>>(){
+
+		@Override
+		public int compare(Map.Entry<String, Integer> arg1, Map.Entry<String, Integer> arg0) {
+			return arg0.getValue().compareTo(arg1.getValue());
+		}
+		});
+		
+		
+		Map<String,Integer> sortedMap = new LinkedHashMap<String,Integer>();
+		for(Entry<String,Integer> entry : list){
+			sortedMap.put(entry.getKey(), entry.getValue());
+		}
+		
+		System.out.println("Risulati ricerca:");
+		for(String id : sortedMap.keySet()){
+			listaCinema.get(id).printBaseInfo();
+		}
+		return true;
 	}
 	
 	public void showCinema(String cinemaId){

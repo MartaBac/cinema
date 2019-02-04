@@ -82,6 +82,14 @@ public class Main {
 		
 		// reinserisco il cinema rimosso
 		s.addNewCinema(c);
+		c = new Cinema("Cinema002", "Odeon maxi", "Genova", "via Ariston 1");
+		s.addNewCinema(c);
+		c = new Cinema("Cinema003", "Ariston", "Genova", "via Genova 1");
+		s.addNewCinema(c);
+
+		System.out.println("Ricerca cinema");
+		String[] cin = new String[]{"Odeon", "maxi"};
+		s.searchCinema(cin);
 		
 		s.addNewSala(c.getIdCinema(), "sala1", "111110111111" , 12, 2, 6);
 		

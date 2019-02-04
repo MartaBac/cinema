@@ -50,20 +50,21 @@ public class Film {
 		// Pesi da rivalutare
 		int[] weight = new int[]{100,1,5,25,15,40,25,25};
 		int point = 0;
+		Comparator c = new Comparator();
 		
 		// Implementare algoritmo per trovare le corrispondenze migliori		
 		//Per ogni parola ricercata
 		for(String e : t){
 			if(e == null)
 				continue;
-			count[0] = count[0] + compare(e, this.title);
-			count[1] = count[1] + compare(e, this.summary);
-			count[2] = count[2] + compare(e, this.country);
-			count[3] = count[3] + compare(e, this.actors);
-			count[4] = count[4] + compare(e, this.genre);
-			count[5] = count[5] + compare(e, this.tags);
-			count[6] = count[6] + compare(e, this.producer);
-			count[7] = count[7] + compare(e, this.director);
+			count[0] = count[0] + c.Compare(e, this.title);
+			count[1] = count[1] + c.Compare(e, this.summary);
+			count[2] = count[2] + c.Compare(e, this.country);
+			count[3] = count[3] + c.Compare(e, this.actors);
+			count[4] = count[4] + c.Compare(e, this.genre);
+			count[5] = count[5] + c.Compare(e, this.tags);
+			count[6] = count[6] + c.Compare(e, this.producer);
+			count[7] = count[7] + c.Compare(e, this.director);
 	}	
 
 	for(int j=0; j<count.length; j++){
