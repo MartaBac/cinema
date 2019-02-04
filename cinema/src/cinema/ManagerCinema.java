@@ -8,13 +8,4 @@ public class ManagerCinema extends Cassiere {
 		permesso = Permesso.MANAGER;	
 	}
 	
-	@Override
-	public boolean getStatus(){
-		return true;
-	}
-	
-	@Override
-	public void setStatus(boolean status) {
-		return;
-	}
 }

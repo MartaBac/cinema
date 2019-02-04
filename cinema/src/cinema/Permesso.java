@@ -1,6 +1,5 @@
 package cinema;
 
-
 public enum Permesso { 
 	ADMIN(true, 3), 
 	MANAGER(true, 2), 

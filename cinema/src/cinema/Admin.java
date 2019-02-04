@@ -6,12 +6,5 @@ public final class Admin extends ManagerCinema {
 			String password, boolean log, String phoneNumber, boolean status) {
 		super( nickname, name, surname, email, dateOfBirth, password, log, phoneNumber, status);
 		permesso = Permesso.ADMIN;
-	}
-	
-	public boolean isEmployee(){
-		return false;
-	}
-
-
-	
+	}	
 }

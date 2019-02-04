@@ -3,7 +3,7 @@ package cinema;
 public class Cassiere extends Utente {
 	
 	private String phoneNumber;
-	private boolean status;
+	protected boolean status;
 
 	public Cassiere( String nickname, String name, String surname, String email, String dateOfBirth,
 			String password, boolean log, String phoneNumber) {
@@ -40,7 +40,6 @@ public class Cassiere extends Utente {
 	}
 
 	public boolean getStatus() {
-		// TODO Auto-generated method stub
 		return this.status;
 	}
 

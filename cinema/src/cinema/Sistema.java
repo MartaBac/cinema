@@ -1,9 +1,16 @@
 package cinema;
 
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
+import java.util.TreeMap;
 
 
 public class Sistema {
@@ -20,7 +27,7 @@ public class Sistema {
 
 	public boolean login(String username, String password) {
 		Utente u;
-		if(listaUtenti.containsKey(username)){
+		if(!listaUtenti.containsKey(username)){
 			return false;
 		}else{
 			u = listaUtenti.get(username);
@@ -30,7 +37,7 @@ public class Sistema {
     			if (u instanceof ManagerCinema)
     				System.out.println("Benvenuto Manager " + u.getNickname());
     			if (u instanceof Cassiere)
-    				System.out.println("Benvenuto Cassiere" + u.getNickname());
+    				System.out.println("Benvenuto Cassiere " + u.getNickname());
     			if (u instanceof ClienteRegistrato)
     				System.out.println("Benvenuto " + u.getNickname());
 				listaUtenti.get(username).setLoggedIn(true);
@@ -49,7 +56,7 @@ public class Sistema {
 			listaUtenti.get(username).setLoggedIn(false);
 			return true;
 		} else {
-			// Non cambio lo status perché era già offline o utente non trovato, ritorno un fallimento
+			// Non cambio lo status perché era offline o inesistente, ritorno un fallimento
 			return false;
 		}
 	}
@@ -81,9 +88,41 @@ public class Sistema {
 		return true;
 	}
 	
-	public boolean searchMovie(){
+	public boolean searchMovie(String[] tag){
+		Integer score = null;
+		 HashMap<String, Integer> scoredMovies = new HashMap<String, Integer>();
 		
-		return false;
+		for(Film f : listaFilm.values()){
+			System.out.println("Comparazione tag: "+tag.length);
+			score = f.compareTag(tag);
+			scoredMovies.put(f.getIdFilm(), score);
+			score = null;
+		}
+
+		List<Entry<String,Integer>> list = new LinkedList<Map.Entry<String, 
+				Integer>>(scoredMovies.entrySet());
+		
+		//Sorting the list
+		Collections.sort(list, new Comparator<Entry<String, Integer>>(){
+
+			@Override
+			public int compare(Map.Entry<String, Integer> arg0, Map.Entry<String, Integer> arg1) {
+				return arg0.getValue().compareTo(arg1.getValue());
+			}
+		});
+		
+		
+		Map<String,Integer> sortedMap = new LinkedHashMap<String,Integer>();
+		for(Entry<String,Integer> entry : list){
+			sortedMap.put(entry.getKey(), entry.getValue());
+		}
+		
+		System.out.println("Risulati ricerca:");
+		for(String id : sortedMap.keySet()){
+			listaFilm.get(id).printBaseInfo();
+		}
+			
+		return true;
 	}
 	
 	public boolean searchCinema(){
@@ -91,14 +130,24 @@ public class Sistema {
 		return false;
 	}
 	
-	public boolean showCinema(String cinemaId){
-		
-		return false;
+	public void showCinema(String cinemaId){
+		try{
+			listaCinema.get(cinemaId).printAllInfo();
+		}catch(Exception e){
+			System.out.println("Unable to find the specified cinema.");
+			e.printStackTrace();		
+		}
 	}
 
-	public boolean showMovie(String movieId){
-		
-		return false;
+	public void showMovie(String movieId){
+		try{
+			listaFilm.get(movieId).printAllInfo();
+		}catch(Exception e){
+			System.out.println("Unable to find the specified movie.");
+			e.printStackTrace();		
+		}
+
+
 	}
 	
 	public void printProfilo(Integer idUtente){
@@ -151,14 +200,27 @@ public class Sistema {
 }
 
 	
-	public boolean removeMovie(String idMovie){
-		return false;
+	public boolean removeMovie(String idMovie){	
+		if(listaFilm.get(idMovie) != null){
+			listaFilm.remove(idMovie);
+		}else{
+			System.out.println("Invalid parameter");
+			return false;
+		}
+		System.out.println(idMovie + " removed");
+		return true;
 	}
 
 	
 	public boolean removeCinema(String idCinema){
-		
-		return false;
+		if(listaCinema.get(idCinema) != null){
+			listaCinema.remove(idCinema);
+		}else{
+			System.out.println("Invalid parameter");
+			return false;
+		}
+		System.out.println(idCinema + " removed");
+		return true;
 	}
 	
 	public 	boolean changeEmployeeStatus(String idMio, String idUtente, boolean a){

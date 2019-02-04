@@ -1,23 +1,27 @@
 package cinema;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class Sala {
 	private String cinemaId, salaId, name, usableSeats;
 	private Integer capacity,rows,columns;
+	//
+	
+	private HashMap<String, spettacolo> listaSpettacoli;
 
 	
 public Sala(String cinemaId, String name, String usableSeats, Integer cap, Integer rows,
 			Integer col) {
 	int length;
-	this.setCinemaId(cinemaId);
-	this.setName(name);
-	this.setUsableSeats(usableSeats);
-	this.setCapacity(cap);
-	this.setRows(rows);
+	this.cinemaId = cinemaId;
+	this.name = name;
+	this.usableSeats = usableSeats;
+	this.capacity = cap;
+	this.rows = rows;
 	this.columns = col;
-	this.setSalaId(cinemaId + name);
+	this.salaId = cinemaId + name;
 	length = usableSeats.length();
 	if (length % columns != 0 || (columns*rows) != length||(columns*rows) != capacity ) 
 	{ 
@@ -25,27 +29,28 @@ public Sala(String cinemaId, String name, String usableSeats, Integer cap, Integ
 	    		+ "does not match"); 
 	    return; 
 	} 
-	
-
 }
 
 public void getSeatsMap() {
 	Seat[] s = new Seat[capacity];
 	Map<Seat, String> map = new HashMap<Seat, String>();
 	int t = 0;
+	boolean b = true;
 	char y;
+	
 	// Making a map with seats and their availability (broken or not )
 	for(Integer i = 0;i<rows;i++){
 		for(Integer j=0;j<columns;j++){
-			s[t] = new Seat(i, j);
+			if(usableSeats.charAt(i*columns +j) == '1')
+				b = true;
+			else 
+				b = false;
+			s[t] = new Seat(i, j, b);
 			y = usableSeats.charAt(t);
 			map.put(s[t], Character.toString(y));
 			t++;
-		}
-		
+		}	
 	}
-
-	
 }
 
 
@@ -100,5 +105,13 @@ public void setSalaId(String salaId) {
 public void printInfo(){
 	System.out.println(salaId + "//" + cinemaId  + "//" + name + "//" + usableSeats + "//" +
 				capacity + "//" + rows + "//" + columns);
+}
+
+public HashMap<String, spettacolo> getListaSpettacoli() {
+	return listaSpettacoli;
+}
+
+public void setListaSpettacoli(HashMap<String, spettacolo> listaSpettacoli) {
+	this.listaSpettacoli = listaSpettacoli;
 }
 }

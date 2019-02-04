@@ -38,10 +38,42 @@ public class Film {
 		System.out.println(Arrays.toString(director));
 	}
 	
-	public int compareTag(String[] t){
-		int count = 0;
-		// Implementare algoritmo per trovare le corrispondenze migliori
-		return count;
+	/**
+	 * Permette di ottenere un punteggio in base alle occorrenze delle parole cercate nella scheda
+	 * del film; questo punteggio è ottenuto pesato, cioè a seconda dell'ambito in cui appare la parola
+	 * vale più o meno ai fini del punteggio.
+	 * @param String[] tags
+	 **/
+	public Integer compareTag(String[] t){
+		
+		int[] count = new int[]{0,0,0,0,0,0,0,0};
+		// Pesi da rivalutare
+		int[] weight = new int[]{100,1,5,25,15,40,25,25};
+		int point = 0;
+		
+		// Implementare algoritmo per trovare le corrispondenze migliori		
+		//Per ogni parola ricercata
+		for(String e : t){
+			if(e == null)
+				continue;
+			count[0] = count[0] + compare(e, this.title);
+			count[1] = count[1] + compare(e, this.summary);
+			count[2] = count[2] + compare(e, this.country);
+			count[3] = count[3] + compare(e, this.actors);
+			count[4] = count[4] + compare(e, this.genre);
+			count[5] = count[5] + compare(e, this.tags);
+			count[6] = count[6] + compare(e, this.producer);
+			count[7] = count[7] + compare(e, this.director);
+	}	
+
+	for(int j=0; j<count.length; j++){
+		point = point + (count[j]*weight[j]);
+	}		
+		return point;
+	}
+	
+	public void printBaseInfo(){
+		System.out.println(this.title);
 	}
 
 	public String getTitle() {
@@ -95,7 +127,22 @@ public class Film {
 	public void setTags(String[] tags) {
 		this.tags = tags;
 	}
-
-
-
+	
+	private int compare(String tag, Object s){
+		int count = 0;
+		if(s == null)
+			return 0;
+		if(s instanceof String[]){			
+			for(String comp : (String[]) s){
+				if(comp.contains(tag))
+					count++;
+			}		
+		}
+		else if(s instanceof java.lang.String){
+			if( ((String) s).contains(tag)){
+				count++;
+			}
+		}
+		return count;
+	}
 }
