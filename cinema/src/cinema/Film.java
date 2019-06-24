@@ -1,17 +1,14 @@
 package cinema;
 
-import java.util.Arrays;
-
 public class Film {
 
-	private String idFilm, title, releaseDate, summary, country;
-	
+	private String idFilm, title, releaseDate, summary, country;	
 	private String[] actors,genre,tags,producer,director;
 	
 	public Film(String idFilm, String title, String releaseDate, String summary,
 			String country, String[] actors, String[] genre, String[] tags,
 			String[] producer, String[] director){
-		this.setIdFilm(idFilm);
+		this.idFilm = idFilm;
 		this.title = title;
 		this.releaseDate = releaseDate;
 		this.summary = summary;
@@ -23,19 +20,14 @@ public class Film {
 		this.director = director;
 	}
 	
-	public void printAllInfo(){	
-		System.out.println("Titolo film:\t" + this.title +"\n");
-		System.out.print("Data di uscita:\t" + this.releaseDate + "\n");
-		System.out.println("Trama:\t" + this.summary + "\n");
-		System.out.println("Paese di produzione:\t" + this.country + "\n");
-		System.out.println("Attori:\t" );
-		System.out.println(Arrays.toString(actors));
-		System.out.println("Genere:\t" );
-		System.out.println(Arrays.toString(genre));
-		System.out.println("Produttore:\t" );
-		System.out.println(Arrays.toString(producer));
-		System.out.println("Direttore:\t" );
-		System.out.println(Arrays.toString(director));
+	public String printAllInfo(){	
+		String s = "Titolo film:\t" + this.title + "\nData di uscita:\t" + this.releaseDate
+				+ "\nTrama:\t" + this.summary + "\nPaese di produzione:\t" + this.country
+				+ "\nAttori:\n" + String.join("\n", this.actors) + "\nGenere:\n"
+				+ String.join("\n", this.genre) + "\nProduttore:\n"
+				+ String.join("\n", this.producer) + "\nDirettore:\n" 
+				+ String.join("\n", this.director);
+		return s;
 	}
 	
 	/**
@@ -47,8 +39,8 @@ public class Film {
 	public Integer compareTag(String[] t){
 		
 		int[] count = new int[]{0,0,0,0,0,0,0,0};
-		// Pesi da rivalutare
-		int[] weight = new int[]{100,1,5,25,15,40,25,25};
+		// Pesi per ogni categoria
+		int[] weight = new int[]{100,1,5,55,15,50,25,25};
 		int point = 0;
 		Comparator c = new Comparator();
 		
@@ -84,17 +76,22 @@ public class Film {
 	public String getIdFilm() {
 		return idFilm;
 	}
-
-	public void setIdFilm(String idFilm) {
-		this.idFilm = idFilm;
+	
+	public String getReleaseDate(){
+		return releaseDate;
 	}
 	
-	/*
-	 * da completare restituendo altri dati?
-	 */
+	public String getSummary(){
+		return summary;
+	}
+	
+	public String getCountry(){
+		return country;
+	}
+	
 	@Override
 	public String toString() {
-		return title;
+		return idFilm + " - " + title;
 	}
 
 	public String[] getProducer() {
@@ -116,6 +113,10 @@ public class Film {
 	public String[] getGenre() {
 		return genre;
 	}
+	
+	public String[] getActor(){
+		return actors;
+	}
 
 	public void setGenre(String[] genre) {
 		this.genre = genre;
@@ -127,23 +128,5 @@ public class Film {
 
 	public void setTags(String[] tags) {
 		this.tags = tags;
-	}
-	
-	private int compare(String tag, Object s){
-		int count = 0;
-		if(s == null)
-			return 0;
-		if(s instanceof String[]){			
-			for(String comp : (String[]) s){
-				if(comp.contains(tag))
-					count++;
-			}		
-		}
-		else if(s instanceof java.lang.String){
-			if( ((String) s).contains(tag)){
-				count++;
-			}
-		}
-		return count;
 	}
 }

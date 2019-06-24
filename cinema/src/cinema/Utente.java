@@ -3,11 +3,13 @@ package cinema;
 public abstract class Utente {
 	private String nickname,name,surname, email,dateOfBirth,
 		password;
+	protected boolean status;
 	protected Permesso permesso;
-	private boolean isLoggedIn;
+	private boolean isLoggedIn = false;
 	protected abstract void setStatus(boolean b);
 	protected abstract boolean getStatus();
-	protected abstract boolean isEmployee();
+	public abstract String getPhone();
+	public abstract String getCinema();
 	
 	public Utente(String nickname, String name, String surname, String email, 
 			String dateOfBirth, String password) {
@@ -17,19 +19,18 @@ public abstract class Utente {
 		this.email = email;
 		this.dateOfBirth = dateOfBirth;
 		this.password = password;
-		this.setLoggedIn(false);	
+		this.status = true;
 	}
 	@Override
 	public String toString() {
 		return name + " " + surname + " " + permesso;
 	}
 
-	public void showProfile() {
-		System.out.println("nickname: " + nickname);
-		System.out.println("nome: " + name);
-		System.out.println("cognome: " + surname);
-		System.out.println("email: " + email);
-		System.out.println("data di nascita: " + dateOfBirth);	
+	public String showProfile() {
+		String s = "nickname: " + nickname + "\nnome: " + name + "\ncognome: " + surname
+				+ "\nemail: " + email + "\ndata di nascita: " + dateOfBirth + "\npermesso: " 
+				+ permesso;	
+		return s;
 	}
 
 	public String getPassword() {
@@ -38,10 +39,6 @@ public abstract class Utente {
 
 	public Permesso getRole() {
 		return permesso;
-	}
-
-	public void setRole(Permesso permesso) {
-		this.permesso = permesso;
 	}
 
 	public boolean isLoggedIn() {
@@ -90,5 +87,13 @@ public abstract class Utente {
 
 	public void setBirth(String birth) {
 		this.dateOfBirth = birth;
+	}
+	
+	public boolean isEmployee(){
+		return this.permesso.isEmployee();
+	}
+	
+	public int getPermesso(){
+		return this.permesso.getPermission();
 	}
 }

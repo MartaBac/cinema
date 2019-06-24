@@ -3,8 +3,20 @@ package cinema;
 public final class Admin extends ManagerCinema {
 
 	public Admin( String nickname, String name, String surname, String email, String dateOfBirth,
-			String password, boolean log, String phoneNumber, boolean status) {
-		super( nickname, name, surname, email, dateOfBirth, password, log, phoneNumber, status);
+			String password,  String phoneNumber, String cinemaId) {
+		super( nickname, name, surname, email, dateOfBirth, password,  phoneNumber, cinemaId);
 		permesso = Permesso.ADMIN;
+		cinemaId = null;
+		status = true;
 	}	
+	
+	@Override
+	public void setCinemaId(String c){
+		throw new UnsupportedOperationException();		
+	}
+	
+	@Override
+	public void setStatus(boolean b){
+		return;
+	}
 }

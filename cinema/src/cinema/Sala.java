@@ -1,16 +1,38 @@
 package cinema;
 
+import java.security.InvalidParameterException;
+
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
-public class Sala {
-	private String cinemaId, salaId, name, usableSeats;
-	private Integer capacity,rows,columns;
-	//
-	
-	private HashMap<String, spettacolo> listaSpettacoli;
+/**
+ * Classe <code>Sala</code> permette la creazione di un oggetto Sala e l'interazione
+ * con esso. Ogni Sala sarà associata ad un cinema.
+ * 
+ * @version 1.00
+ * @author Marta Bacigalupo
+ *
+ */
 
+public class Sala {
+	private String cinemaId, name, usableSeats;
+	static String salaId;
+	private Integer capacity,rows,columns;
+	Map<Seat, String> map;
+	private HashMap<String, Spettacolo> listaSpettacoli;
+
+/**
+ * Inizializzazione dell'oggetto Sala.
+ * Si assume che la mappa dei sedili sia rettangolare; in caso contrario basta settare
+ * a 0 in UsableSeats i posti non esistenti, come se non fossero agibili.
+ * 
+ * @param cinemaId - cinema associato alla sala
+ * @param name - nome della sala
+ * @param usableSeats - Stringa di 0 e 1 che indica i sedili sono usabili(1) e i non (0).
+ * @param cap - (Integer) indica la capacità, = alla lunghezza della String usableSeats.
+ * @param rows - numero file
+ * @param col - numero posti per fila
+ */
 	
 public Sala(String cinemaId, String name, String usableSeats, Integer cap, Integer rows,
 			Integer col) {
@@ -21,19 +43,20 @@ public Sala(String cinemaId, String name, String usableSeats, Integer cap, Integ
 	this.capacity = cap;
 	this.rows = rows;
 	this.columns = col;
-	this.salaId = cinemaId + name;
+	Sala.salaId = cinemaId + name;
 	length = usableSeats.length();
-	if (length % columns != 0 || (columns*rows) != length||(columns*rows) != capacity ) 
+	listaSpettacoli = new  HashMap<String, Spettacolo>();
+	if (length % columns != 0 || (columns*rows) != length||length != capacity ) 
 	{ 
-	    System.out.println("Invalid Input: capacity/usable seats and # of column/rows "
+	    throw new InvalidParameterException("Invalid Input: capacity/usable seats and # of column/rows "
 	    		+ "does not match"); 
-	    return; 
 	} 
+	createSeatsMap();
 }
 
-public void getSeatsMap() {
+private void createSeatsMap() {
 	Seat[] s = new Seat[capacity];
-	Map<Seat, String> map = new HashMap<Seat, String>();
+	map = new HashMap<Seat, String>();
 	int t = 0;
 	boolean b = true;
 	char y;
@@ -59,7 +82,10 @@ public String getUsableSeats() {
 }
 
 public void setUsableSeats(String usableSeats) {
-	this.usableSeats = usableSeats;
+	if(usableSeats!=null && usableSeats.matches("^[01]+$") && usableSeats.length()==(this.rows*this.columns))
+		this.usableSeats = usableSeats;
+	else
+		System.out.println("Error: Invalid input.");
 }
 
 public String getName() {
@@ -74,32 +100,20 @@ public Integer getRows() {
 	return rows;
 }
 
-public void setRows(Integer rows) {
-	this.rows = rows;
+public Integer getColumns() {
+	return columns;
 }
 
 public Integer getCapacity() {
 	return capacity;
 }
 
-public void setCapacity(Integer capacity) {
-	this.capacity = capacity;
-}
-
 public String getCinemaId() {
 	return cinemaId;
 }
 
-public void setCinemaId(String cinemaId) {
-	this.cinemaId = cinemaId;
-}
-
 public String getSalaId() {
 	return salaId;
-}
-
-public void setSalaId(String salaId) {
-	this.salaId = salaId;
 }
 
 public void printInfo(){
@@ -107,11 +121,28 @@ public void printInfo(){
 				capacity + "//" + rows + "//" + columns);
 }
 
-public HashMap<String, spettacolo> getListaSpettacoli() {
-	return listaSpettacoli;
+public HashMap<String, Spettacolo> getListaSpettacoli() {
+	return this.listaSpettacoli;
 }
 
-public void setListaSpettacoli(HashMap<String, spettacolo> listaSpettacoli) {
+public void setListaSpettacoli(HashMap<String, Spettacolo> listaSpettacoli) {
 	this.listaSpettacoli = listaSpettacoli;
+}
+
+public boolean addSpettacolo(Spettacolo s){
+	// Se era già presente non lo inserisco
+	if(this.listaSpettacoli.containsKey(s.getIdSpettacolo())){
+		return false;
+	}
+	this.listaSpettacoli.put(s.getIdSpettacolo(), s);
+	return true;
+	}
+
+public boolean removeSpettacolo(String s){
+	if(this.listaSpettacoli.containsKey(s)){
+		this.listaSpettacoli.remove(s);
+		return true;
+	}
+	return false;
 }
 }

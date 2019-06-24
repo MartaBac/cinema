@@ -1,11 +1,17 @@
 package cinema;
-
+/**
+ * 
+ * Viene utilizzato per la ricerca
+ */
 public class Comparator {
 	private int count;
 	public Comparator(){
 		this.count = 0;
 	}
 	
+	/*
+	 * Assegna un punteggio in base a quante volte appare la parola
+	 */
 	public int Compare(String tag,String s){
 		this.count = 0;
 		if( ((String) s).contains(tag)){
@@ -15,23 +21,11 @@ public class Comparator {
 	}
 	
 	public int Compare(String tag, String[] s){
-		this.count = 0;
-		if(s!=null){
-			for(String comp : s){
-				if(comp.contains(tag))
-					count++;
-			}
-		}
+		int count = 0;		
+		for(String comp : (String[]) s){
+			if(comp.contains(tag))
+				count++;
+		}		
 		return count;
 	}
-	
-	public void resetCount(){
-		count = 0;
-	}
-	
-	public int getCount(){
-		return count;
-	}
-		
-	
 }
