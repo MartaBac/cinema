@@ -8,19 +8,15 @@ import org.junit.Test;
 import cinema.Admin;
 import cinema.Permesso;
 
-public class AdminTest {
-	
+public class AdminTest {	
 	Admin a;
-
 
 	@Before
 	public void setUp() throws Exception {
 		a = new Admin("Admin0", "Bob", "Brown", "lurbin@em.net", "30/12/1980",
 			"abc0123", "+393339087654", null);
-
 	}
 	
-
 	@Test
 	public void testManager() {
 		assertNotNull(a); 
@@ -34,6 +30,7 @@ public class AdminTest {
 		assertEquals(null, a.getCinema());
 		assertTrue(a.getStatus());
 	}
+	
 	@Test(expected = UnsupportedOperationException.class)
 	public void testSetCinema(){
 		// Non passa perché fallisce e manda l'eccezione

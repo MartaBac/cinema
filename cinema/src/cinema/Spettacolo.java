@@ -1,7 +1,11 @@
 package cinema;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Map.Entry;
 
 public abstract class Spettacolo {
 
@@ -10,8 +14,6 @@ public abstract class Spettacolo {
 	protected static BigDecimal ticketCost;
 	protected static BigDecimal reducedTicketCost;
 	private String idCinema, idSala;
-	
-	// tenerlo qua o cosa?
 	private HashMap<String, Seat> prenotazioni;
 	
 	
@@ -37,10 +39,16 @@ public abstract class Spettacolo {
 		this.setDateShow(dateShow);
 		this.setStartingTime(start);
 		this.setEndingTime(end);
+		this.idMovie = idMovie;
 		this.idSala = sala.getSalaId();
 		prenotazioni = new HashMap<String, Seat>();
 		createMap(sala);
 		this.vietatoMinori = vietato;
+	}
+	
+	@Override
+	public String toString(){
+		return idSpettacolo + " " + dateShow + " " + startingTime + " " + idSala;
 	}
 
 	public boolean getVietato(){
@@ -154,19 +162,39 @@ public abstract class Spettacolo {
 		}
 	}
 	
-	public boolean prenote(int row, int column, String idUtente){
-		String idSeat = "row" + row + "column" + column;
-		if(this.prenotazioni.get(idSeat).isFree() && this.prenotazioni.get(idSeat).isUsable()){
-			this.prenotazioni.get(idSeat).setOccupied(idUtente);
-			return true;
+	public boolean prenote(ArrayList<Seat> seat, String idUtente){
+		int row, column;
+		for(int i=0;i<seat.size();i++){
+			row = seat.get(i).getRow();
+			column = seat.get(i).getColumn();
+			String idSeat = "row" + row + "column" + column;
+			if(this.prenotazioni.get(idSeat).isFree() && this.prenotazioni.get(idSeat).isUsable()){
+				this.prenotazioni.get(idSeat).setOccupied(idUtente);
+			}
+			else{
+				return false;	
+			}
 		}
-		return false;	
+		return true;
+	}
+	
+	/** Ritorna i posti ancora liberi - e usabili - per uno spettacolo.
+	 * 
+	 * @return ArrayList<Seat>
+	 */
+	public ArrayList<Seat> getFreeSeat(){
+		ArrayList<Seat> seatFree = new ArrayList<Seat>();	
+		Iterator<Entry<String, Seat>> it = this.prenotazioni.entrySet().iterator();
+		while (it.hasNext()) {
+		    Map.Entry<String, Seat> pair = it.next();
+		    if(pair.getValue().isFree() && pair.getValue().isUsable())
+		    	seatFree.add(pair.getValue()); 
+		    }
+		return seatFree;
 	}
 	
 	public boolean equalsSpett(Spettacolo sp){
 		// Checka tutto tranne le prenotazioni
-		System.out.println(this.idSala);
-		System.out.println(sp.getIdSala());
 		if(this.dateShow.equals(sp.getDateShow()) && this.endingTime.equals(
 				sp.getEndingTime()) 
 				&& this.idCinema.equals(sp.getIdCinema()) 
@@ -184,10 +212,24 @@ public abstract class Spettacolo {
 	}
 
 	public String getIdMovie() {
-		return idMovie;
+		return this.idMovie;
 	}
 
 	public void setIdMovie(String idMovie) {
 		this.idMovie = idMovie;
+	}
+	
+	public boolean deletePrenotazione(String id){
+		if(prenotazioni.remove(id) == null)
+			return false;
+		else
+			return true;		
+	}
+	
+	public boolean getPrenotazione(String idPrenotazione){
+		if(this.prenotazioni.get(idPrenotazione)==null)
+			return false;
+		System.out.println(this.prenotazioni.get(idPrenotazione).toString());
+		return true;
 	}
 }

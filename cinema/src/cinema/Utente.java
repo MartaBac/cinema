@@ -27,6 +27,17 @@ public abstract class Utente {
 	}
 
 	public String showProfile() {
+		String format = "%-40s%s%n";
+		String repeated = new String(new char[60]).replace("\0", "-");
+		System.out.println(repeated);
+		System.out.printf(format, "Nickname:", nickname);
+		System.out.printf(format, "Name:", name);
+		System.out.printf(format, "Cognome:", surname);
+		System.out.printf(format, "E-mail:", email);
+		System.out.printf(format, "Data di nascita:", dateOfBirth);
+		System.out.printf(format, "Permesso:", permesso);
+		System.out.println(repeated);
+		
 		String s = "nickname: " + nickname + "\nnome: " + name + "\ncognome: " + surname
 				+ "\nemail: " + email + "\ndata di nascita: " + dateOfBirth + "\npermesso: " 
 				+ permesso;	
@@ -95,5 +106,9 @@ public abstract class Utente {
 	
 	public int getPermesso(){
 		return this.permesso.getPermission();
+	}
+	
+	public Permesso getPermessoObj(){
+		return this.permesso;
 	}
 }

@@ -2,6 +2,9 @@ package test_strutturali;
 
 import static org.junit.Assert.*;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.PrintStream;
 import java.util.HashMap;
 
 import org.junit.Before;
@@ -15,6 +18,7 @@ import cinema.Spettacolo3D;
 
 public class CinemaTest {
 	Cinema c;
+	
 	@Before
 	public void setUp() throws Exception {
 		c = new Cinema( "0","Ariston", "Sanremo", "Via Puggia 2");
@@ -34,6 +38,7 @@ public class CinemaTest {
 		String t = "Nome\nAriston\nIndirizzo:\nVia Puggia 2\nNumero sale:\n0";
 		assertEquals(t,c.printAllInfo());
 	}
+	
 	@Test
 	public void getNumeroSale(){
 		assertEquals(0,c.getNumeroSale());
@@ -119,6 +124,43 @@ public class CinemaTest {
 				"mav", sala2);
 		map.put(s3.getIdSpettacolo(), s3);
 		assertFalse(c.addSpettacoli(map));
+	}
+	
+	@Test
+	public void testSearchSpettacolo(){
+		Sala sala= new Sala("cinema0", "salaBLU", "011111", 6, 3, 2);
+		HashMap<String, Spettacolo> listaSpettacoli = new HashMap<String, Spettacolo>();
+		Spettacolo s,s1,s2;
+		s1 = new Spettacolo2D("spett1", "03/12/1999", "20:30", "22:30","0", true,"Silenzio",
+				sala);
+		s2 = new Spettacolo2D("spett0", "02/12/1999", "21:30", "23:30","0","Rumore", sala);
+		s = new Spettacolo2D("spett0", "02/12/1999", "21:30", "23:30","0","Silenzio", sala);
+		listaSpettacoli.put(s.getSpettacoloId(), s);
+		listaSpettacoli.put(s1.getSpettacoloId(), s1);
+		listaSpettacoli.put(s2.getSpettacoloId(), s2);
+		sala.setListaSpettacoli(listaSpettacoli);
+		assertEquals(0, c.searchSpettacolo("nonpresente").size());
+		c.addSala(sala);
+		// Troverò i due spettacoli appena inseriti per il film "Silenzio"
+		assertEquals(2, c.searchSpettacolo("Silenzio").size());
+	}
+	
+	@Test
+	public void testPrintSpettacoli() throws IOException{
+		String temp = new String(new char[60]).replace("\0", "-");
+		Sala sala= new Sala("cinema0", "salaBLU", "011111", 6, 3, 2);
+		HashMap<String, Spettacolo> listaSpettacoli = new HashMap<String, Spettacolo>();
+		Spettacolo s;
+		s = new Spettacolo2D("spett0", "02/12/1999", "21:30", "23:30","0","Silenzio", sala);
+		listaSpettacoli.put(s.getSpettacoloId(), s);
+		sala.setListaSpettacoli(listaSpettacoli);
+		c.addSala(sala);
+		ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+	    System.setOut(new PrintStream(outContent));	
+		c.printSpettacoli();		
+		assertEquals(temp + "\r\n" + s.toString() + "\r\n" + temp + "\r\n", 
+				outContent.toString());
+		outContent.close();	
 	}
 
 }

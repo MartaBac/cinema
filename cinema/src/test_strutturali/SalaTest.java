@@ -3,6 +3,7 @@ package test_strutturali;
 import static org.junit.Assert.*;
 
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.io.PrintStream;
 import java.security.InvalidParameterException;
 import java.util.HashMap;
@@ -56,13 +57,32 @@ public class SalaTest {
 		s.setName("provaNome");
 		assertEquals("provaNome",s.getName());
 	}
+	
 	@Test
-	public void testPrintInfo() {
-		String test = "cinema0salaBLU//cinema0//salaBLU//011111//6//3//2\r\n";
-	     ByteArrayOutputStream outContent = new ByteArrayOutputStream();
-	     System.setOut(new PrintStream(outContent));
-	     s.printInfo();
-	    assertEquals(test, outContent.toString()); 	
+	public void testPrintInfo() throws IOException {
+		String exp, test6;
+		String test = new String(new char[60]).replace("\0", " ");
+			
+		exp = "Sala: " + test.substring("Sala: ".length(), 40) + 
+				 s.getSalaId() + "\r\n" + 
+				"Cinema: " + test.substring("Cinema: ".length(), 40) + 
+				 s.getCinemaId() + "\r\n" + 
+				"Nome: " + test.substring("Nome: ".length(), 40) +
+				 s.getName() + "\r\n" + 
+				"Posti usabili: " + test.substring("Posti usabili: ".length(), 40) +
+				 s.getUsableSeats() + "\r\n" + 
+				"Capacità: " + test.substring("Capacità: ".length(), 40) + 
+				 s.getCapacity() + "\r\n" +
+				"FilexColonne: " + test.substring("FilexColonne: ".length(), 40) + 
+				 s.getRows() + "x" + s.getColumns() + "\r\n";
+		test6 = new String(new char[60]).replace("\0", "-");
+		exp = exp + test6 + "\r\n";
+		ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+		System.setOut(new PrintStream(outContent));	
+		
+		s.printInfo();
+		assertEquals(exp, outContent.toString());
+		outContent.close();
 	}
 
 
@@ -96,22 +116,41 @@ public class SalaTest {
 		assertFalse(s.getListaSpettacoli().containsKey(s1.getIdSpettacolo()));
 		assertFalse(s.removeSpettacolo(s1.getSpettacoloId()));
 	}
+	
+	@Test
+	public void testPrintSpettacoli(){
+		String temp = new String(new char[60]).replace("\0", "-");
+		HashMap<String, Spettacolo> spett = new HashMap<String, Spettacolo>();
+		ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+	    
+	    System.setOut(new PrintStream(outContent));
+	    s.printSpettacoli();
+	    // Perché si tratta di una lista vuota
+	    assertEquals("",outContent.toString());
+	    Spettacolo s1 = new Spettacolo2D("s1", "12/03/1928", "22:30", "23:30", 
+				"0","Film1", s);
+		spett.put(s1.getIdSpettacolo(), s1);
+		s.setListaSpettacoli(spett);
+		System.setOut(new PrintStream(outContent));
+		s.printSpettacoli();
+		// Stampa l'unico spettacolo presente
+		assertEquals(temp + "\r\n" + s1.toString() + "\r\n" + temp + "\r\n", 
+				outContent.toString());
+	}
 
 	@Test(expected = InvalidParameterException.class) 
 	public void setUpExc() throws Exception {
 		/*This must throw an exception because the third parameter has one value
 		 * in excess
 		*/
-		new Sala("cinema0", "salaBLU", "0111111", 6, 3, 2);
-		
+		new Sala("cinema0", "salaBLU", "0111111", 6, 3, 2);	
 	}
 	
 	@Test(expected = InvalidParameterException.class) 
 	public void setUpExc2() throws Exception {
 		/*This must throw an exception because 3*1!=6
 		*/
-		new Sala("cinema0", "salaBLU", "011111", 6, 3, 1);
-		
+		new Sala("cinema0", "salaBLU", "011111", 6, 3, 1);		
 	}
 	
 	@Test(expected = InvalidParameterException.class) 
@@ -121,7 +160,6 @@ public class SalaTest {
 		new Sala("cinema0", "salaBLU", "011", 6, 3, 1);
 		
 	}
-
 
 
 }

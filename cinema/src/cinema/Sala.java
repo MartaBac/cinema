@@ -85,7 +85,7 @@ public void setUsableSeats(String usableSeats) {
 	if(usableSeats!=null && usableSeats.matches("^[01]+$") && usableSeats.length()==(this.rows*this.columns))
 		this.usableSeats = usableSeats;
 	else
-		System.out.println("Error: Invalid input.");
+		System.out.println("->Error: Invalid input.");
 }
 
 public String getName() {
@@ -117,8 +117,15 @@ public String getSalaId() {
 }
 
 public void printInfo(){
-	System.out.println(salaId + "//" + cinemaId  + "//" + name + "//" + usableSeats + "//" +
-				capacity + "//" + rows + "//" + columns);
+	String format = "%-40s%s%n";
+	String repeated = new String(new char[60]).replace("\0", "-");
+	System.out.printf(format, "Sala:", salaId);
+	System.out.printf(format, "Cinema:", this.cinemaId);
+	System.out.printf(format, "Nome:", this.name);
+	System.out.printf(format, "Posti usabili:", this.usableSeats);
+	System.out.printf(format, "Capacità:", this.capacity);
+	System.out.printf(format, "FilexColonne:", this.rows + "x" + this.columns);
+	System.out.println(repeated);
 }
 
 public HashMap<String, Spettacolo> getListaSpettacoli() {
@@ -144,5 +151,13 @@ public boolean removeSpettacolo(String s){
 		return true;
 	}
 	return false;
+}
+
+public void printSpettacoli(){
+	if(listaSpettacoli.size()==0)
+		return;
+	System.out.println(new String(new char[60]).replace("\0", "-"));
+	listaSpettacoli.forEach((k,v) -> System.out.println(v.toString()));
+	System.out.println(new String(new char[60]).replace("\0", "-"));
 }
 }

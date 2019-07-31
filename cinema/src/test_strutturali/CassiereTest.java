@@ -1,6 +1,11 @@
 package test_strutturali;
 
 import static org.junit.Assert.*;
+
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.PrintStream;
+
 import org.junit.Before;
 import org.junit.Test;
 import cinema.Cassiere;
@@ -31,12 +36,39 @@ public class CassiereTest {
 	}
 
 	@Test
-	public void testShowProfile(){
-		String test = "nickname: " + c.getNickname() + "\nnome: " + c.getName() + "\n"
-		 + "cognome: " + c.getSurname()+ "\nemail: " + c.getEmail()+"\ndata di nascita: "
-		 + c.getBirth()+"\nphone number: " + c.getPhone() + "\ncinema: " + c.getCinema() 
-		 + "\npermesso: " + c.getRole();
-     assertEquals(test, c.showProfile()); 	
+	public void testShowProfile() throws IOException{
+		String exp, test6;
+		String test = new String(new char[60]).replace("\0", " ");
+		exp = "Nickname: " + test.substring("Nickname: ".length(), 40) + 
+				 c.getNickname() + "\r\n" + 
+				"Name: " + test.substring("Name: ".length(), 40) + 
+				 c.getName() + "\r\n" + 
+				"Cognome: " + test.substring("Cognome: ".length(), 40) +
+				 c.getSurname() + "\r\n" + 
+				"E-mail: " + test.substring("E-mail: ".length(), 40) +
+				 c.getEmail() + "\r\n" + 
+				"Data di nascita: " + test.substring("Data di nascita: ".length(), 40) + 
+				 c.getBirth() + "\r\n" +
+				"Numero di telefono: " + test.substring("Numero di telefono: ".length(),
+						40) + c.getPhone() + "\r\n" +
+				"Luogo di lavoro: " + test.substring("Luogo di lavoro: ".length(),
+						40) + c.getCinema() + "\r\n" +
+				"Permesso: " + test.substring("Permesso: ".length(), 40) + 
+				 c.getPermessoObj() + "\r\n";
+		test6 = new String(new char[60]).replace("\0", "-");
+		exp = test6 + "\r\n" + exp + test6 + "\r\n";
+		ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+		System.setOut(new PrintStream(outContent));	
+		
+		
+		String s = "nickname: " + c.getNickname() + "\nnome: " + c.getName() + "\n" +
+					"cognome: " + c.getSurname()+ "\nemail: " + c.getEmail() + 
+					"\ndata di nascita: " + c.getBirth()+"\nphone number: " + 
+					c.getPhone() + "\ncinema: " + c.getCinema() + "\npermesso: " +
+					c.getRole();
+    	assertEquals(s, c.showProfile()); 
+    	assertEquals(exp, outContent.toString());
+    	outContent.close();
 	}
 
 	@Test
@@ -59,6 +91,10 @@ public class CassiereTest {
 		String s = "cincin";
 		c.setCinemaId(s);
 		assertEquals(s,c.getCinema());
+	}
+	
+	@Test public void testIsEmployer(){
+		assertFalse(c.getPermessoObj().isEmployer());	
 	}
 	
 	@Test

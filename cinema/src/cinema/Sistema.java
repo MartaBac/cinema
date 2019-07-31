@@ -52,7 +52,6 @@ public class Sistema {
 		if(!listaUtenti.containsKey(username)){
 			if(admin.getNickname().equals(username)){
 				if(admin.getPassword().equals(password)){
-				System.out.println("Benvenuto Admin " + admin.getNickname());
 				admin.setLoggedIn(true);
 				return true;
 				}else
@@ -62,14 +61,7 @@ public class Sistema {
 		}else{
 			u = listaUtenti.get(username);
 			if(u.getPassword().equals(password)){
-    			if (u instanceof ManagerCinema)
-    				System.out.println("Benvenuto Manager " + u.getNickname());
-    			if (u instanceof Cassiere)
-    				System.out.println("Benvenuto Cassiere " + u.getNickname());
-    			if (u instanceof ClienteRegistrato)
-    				System.out.println("Benvenuto " + u.getNickname());
 				listaUtenti.get(username).setLoggedIn(true);
-				System.out.println("Logged in");
 			}
 			else{
 				return false;
@@ -77,7 +69,6 @@ public class Sistema {
 		}
 		return true;
 	}
-
 
 	/**
 	 * Esegue la disconnessione dell'utente.
@@ -110,36 +101,28 @@ public class Sistema {
 	 * Stampa l'elenco di film presenti, specificandone nome e genere.
 	 */
 	
-	public String[] printMovieList(){	
-		ArrayList<String> s1 = new ArrayList<String>();
-		String[] s = new String[]{};
-		System.out.println("Trovati "+listaFilm.size() +"\n risultati:");
-		
+	public boolean printMovieList(){	
+		if(listaFilm.size()==0)
+			return false;
 		for (Map.Entry<String, Film> item : listaFilm.entrySet()) {
 		    Film value = item.getValue();
 		    System.out.println(value.toString());
-		    s1.add(value.toString());
 		}
-		s = s1.toArray(new String[s1.size()]);
-		return s;
+		return true;
 	}
 	
 	/**
 	 * Stampa l'elenco di Cinema del circuito
 	 */
 	
-	public String[] printCinemaList(){
-		ArrayList<String> s1 = new ArrayList<String>();
-		String[] s = new String[]{};
-		System.out.println("Trovati "+listaCinema.size() +"\n risultati:");
-		
+	public boolean printCinemaList(){
+		if(listaCinema.size()==0)
+			return false;
 		for (Map.Entry<String, Cinema> item : listaCinema.entrySet()) {
 		    Cinema value = item.getValue();
 		    System.out.println(value.toString());
-		    s1.add(value.toString());
 		}
-		s = s1.toArray(new String[s1.size()]);
-		return s;
+		return true;
 	}
 	
 	/**
@@ -150,11 +133,55 @@ public class Sistema {
 	 */
 	public boolean addNewUser(Utente u){
 		if(listaUtenti.containsKey(u.getNickname())){
-			System.out.println("Account già esistente");
+			System.out.println("-> Errore: Account già esistente");
 			return false;
 		}else
 		listaUtenti.put(u.getNickname(), u);
 		return true;
+	}
+	
+	/**
+	 * Fa creare un nuovo account dipendente.
+	 * 
+	 * @param d - datore di lavoro che vuole creare l'account
+	 * @param u - account da creare
+	 * @return esito creazione, sarà true solo se l'account del datore ha i permessi 
+	 * (deve essere Admin o Manager) e l'account che si cerca di creare deve essere
+	 * di tipo dipendente e , nel caso del Manager, proprio dipendente e non di altre
+	 * filiali.
+	 */
+	public boolean addNewEmployee(Utente d, Utente u){
+		switch(d.getPermesso()) {
+		case 3:
+			if(u.getPermesso()!=2 && u.getPermesso()!=1){
+				System.out.println("-> Errore: Impossibile creare account di questa classe.");
+				return false;
+			}
+			break;
+		case 2:
+			if(u.getPermesso()!=1){
+				System.out.println("->Errore: Impossibile creare account di questa classe.");
+				return false;	
+			}
+			else{
+				if(d.getCinema()!=u.getCinema()){
+					System.out.println("->Errore:  Impossibile creare account dipendente "
+							+ "del cinema richiesto.");
+					return false;		
+				}
+			}
+			break;
+		default:
+			System.out.println("->Errore: Permesso negato.");
+			return false;
+		}
+		if(listaUtenti.containsKey(u.getNickname())){
+			System.out.println("-> Errore: Account già esistente " + u.getNickname());
+			return false;
+		}else{
+			listaUtenti.put(u.getNickname(), u);
+			return true;
+		}
 	}
 	
 	/**
@@ -171,12 +198,31 @@ public class Sistema {
 	 * @param cin - HashMap contenente i cinema
 	 */
 	
-	public void setCinema( HashMap<String, Cinema> cin){	
+	public boolean setCinema( HashMap<String, Cinema> cin){	
+		if(cin == null){
+			System.out.println("->Errore: null input");
+			return false;
+		}
 		Sistema.listaCinema = cin;
+		return true;
 	}
 	
 	/**
-	 * Effettua la ricerca di film in base a key-words.
+	 * Setta i film del circuito
+	 * @param cin - HashMap contenente i film
+	 */
+	
+	public boolean setMovie( HashMap<String, Film> cin){	
+		if(cin == null){
+			System.out.println("->Errore: null input");
+			return false;
+		}
+		Sistema.listaFilm = cin;
+		return true;
+	}
+	
+	/**
+	 * Effettua la ricerca di film in base a key-words e stampa i risultati.
 	 * 
 	 * @param tag
 	 * @return HashMap contenente i film in ordine dal più inerente ai tag al meno
@@ -188,7 +234,6 @@ public class Sistema {
 		 HashMap<String, Integer> scoredMovies = new HashMap<String, Integer>();
 		
 		for(Film f : listaFilm.values()){
-			System.out.println("Comparazione tag: "+tag.length);
 			score = f.compareTag(tag);
 			scoredMovies.put(f.getIdFilm(), score);
 			score = null;
@@ -208,16 +253,17 @@ public class Sistema {
 		for(Entry<String,Integer> entry : list){
 			sortedMap.put(entry.getKey(), entry.getValue());
 		}		
-		System.out.println("Risulati ricerca:");
+		System.out.println(new String(new char[60]).replace("\0", "-"));
 		for(String id : sortedMap.keySet()){
-			listaFilm.get(id).printBaseInfo();
 			tm.put(id, listaFilm.get(id));
-		}			
+		}	
+		tm.forEach((id, film) -> System.out.println(film.toString()));	
+		System.out.println(new String(new char[60]).replace("\0", "-"));
 		return tm;
 	}
 	
 	/**
-	 * Effettua la ricerca di Cinema del circuito in base a key-words.
+	 * Fa la ricerca di Cinema del circuito in base a key-words e stampa i risultati.
 	 * 
 	 * @param tag
 	 * @return HashMap contenente i cinema in ordine dal più inerente ai tag al meno
@@ -229,7 +275,6 @@ public class Sistema {
 		HashMap<String, Integer> scoredCinema = new HashMap<String, Integer>();
 		
 		for(Cinema c : listaCinema.values()){
-			System.out.println("Comparazione tag: "+tag.length);
 			score = c.compareTag(tag);
 			scoredCinema.put(c.getIdCinema(), score);
 			score = null;
@@ -250,13 +295,15 @@ public class Sistema {
 		LinkedHashMap<String,Integer> sortedMap = new LinkedHashMap<String,Integer>();
 		for(Entry<String,Integer> entry : list){
 			sortedMap.put(entry.getKey(), entry.getValue());
-		}
-		
+		}		
+		System.out.println(new String(new char[60]).replace("\0", "-"));
 		System.out.println("Risulati ricerca:");
 		for(String id : sortedMap.keySet()){
 			listaCinema.get(id).printBaseInfo();
 			cin.put(id, listaCinema.get(id));
 		}
+		System.out.println(new String(new char[60]).replace("\0", "-"));
+		cin.forEach((id, cinema) -> System.out.println(cinema.toString()));
 		return cin;
 	}
 	
@@ -272,8 +319,7 @@ public class Sistema {
 		try{
 			s = listaCinema.get(cinemaId).printAllInfo();
 		}catch(Exception e){
-			System.out.println("Unable to find the specified cinema.");
-			e.printStackTrace();		
+			System.out.println("->Errore: Unable to find the specified cinema.");		
 		}
 		return s;
 	}
@@ -290,8 +336,7 @@ public class Sistema {
 		try{
 			s = listaFilm.get(movieId).printAllInfo();
 		}catch(Exception e){
-			System.out.println("Unable to find the specified movie.");
-			e.printStackTrace();		
+			System.out.println("->Errore: Unable to find the specified movie.");
 		}
 		return s;
 	}
@@ -305,12 +350,14 @@ public class Sistema {
 	public String[]  printUserList(){
 		ArrayList<String> s1 = new ArrayList<String>();
 		String[] s = new String[]{};
+		System.out.println(new String(new char[60]).replace("\0", "-"));
 		System.out.println("List size: " + listaUtenti.size());
 		for (Map.Entry<String, Utente> item : listaUtenti.entrySet()) {
 		    Utente value = item.getValue();	    
 		    s1.add(value.toString());
 		    System.out.println(s1);
 		}
+		System.out.println(new String(new char[60]).replace("\0", "-"));
 		s = s1.toArray(new String[s1.size()]);
 		return s;
 	}
@@ -319,17 +366,63 @@ public class Sistema {
 	 * Permette di ottenere la lista dei dipententi di un specifico dipendente
 	 * 
 	 * @param datore - specifica chi è il datore di lavoro
-	 * @return String[] dei dipendenti se loggato
+	 * @return String[] dei dipendenti 
 	 */
 	
 	public String[]  printMyEmployeeList(Utente datore){
 		ArrayList<String> s1 = new ArrayList<String>();
 		String[] s = new String[]{};
-		if(!datore.isLoggedIn()){
-			System.out.println("Error, to make this operation you must be logged in.");
+		if(datore.permesso.equals(Permesso.ADMIN)){	
+			System.out.println(new String(new char[60]).replace("\0", "-"));
+			for (Map.Entry<String, Utente> entry: listaUtenti.entrySet()){
+				if(entry.getValue().getPermesso()==Permesso.CASSIERE.getPermission()||
+						entry.getValue().getPermesso()==Permesso.MANAGER.getPermission()){
+					System.out.println(entry.getValue().toString());
+					s1.add(entry.getValue().toString());
+				}
+		}
+		System.out.println(new String(new char[60]).replace("\0", "-"));
+		s = s1.toArray(new String[s1.size()]);
+		return s;
+		}
+		else if(datore.permesso.equals(Permesso.MANAGER)){
+			String cinema = datore.getCinema();
+			Iterator<Utente> i = listaUtenti.values().iterator();
+			Utente u;
+			System.out.println(new String(new char[60]).replace("\0", "-"));
+			System.out.println("Lista dipendenti:");
+			while(i.hasNext()){
+				u = i.next();
+				if(u.getPermesso() == Permesso.CASSIERE.getPermission() && 
+						u.getCinema().equals(cinema)){
+					System.out.println(u.getNickname() + ": " + " " + u.getName() + " " + u.getSurname());	
+					s1.add(u.toString());
+				}
+			}
+			System.out.println(new String(new char[60]).replace("\0", "-"));
+			s = s1.toArray(new String[s1.size()]);
+		}			
+		else{
+			System.out.println("-> Errore: Not allowed to perform this action");
 			return null;
 		}
+		return s;
+	}
+	
+	/**
+	 * Permette di ottenere la lista dei dipententi di un specifico attore, restituendo
+	 * solo quelli con un certo status.
+	 * 
+	 * @param datore - specifica chi è il datore di lavoro
+	 * @param status - specifica se voglio ottenere gli attivi o inattivi
+	 * @return String[] dei dipendenti - se loggato -
+	 */
+	
+	public String[]  printMyEmployeeList(Utente datore, boolean status){
+		ArrayList<String> s1 = new ArrayList<String>();
+		String[] s = new String[]{};
 		if(datore.permesso.equals(Permesso.ADMIN)){
+			System.out.println(new String(new char[60]).replace("\0", "-"));
 		System.out.println("List size: " + listaUtenti.size());
 		
 		for (Map.Entry<String, Utente> entry: listaUtenti.entrySet()){
@@ -340,25 +433,29 @@ public class Sistema {
 			}
 		}
 		s = s1.toArray(new String[s1.size()]);
+		System.out.println(new String(new char[60]).replace("\0", "-"));
 		return s;
 		}
 		else if(datore.permesso.equals(Permesso.MANAGER)){
 			String cinema = datore.getCinema();
 			Iterator<Utente> i = listaUtenti.values().iterator();
 			Utente u;
+			System.out.println(new String(new char[60]).replace("\0", "-"));
 			System.out.println("Lista dipendenti:");
 			while(i.hasNext()){
 				u = i.next();
 				if(u.getPermesso() == Permesso.CASSIERE.getPermission() && 
-						u.getCinema().equals(cinema)){
-					System.out.println(u.getNickname() + ": " + " " + u.getName() + " " + u.getSurname());	
+						u.getCinema().equals(cinema) && u.getStatus() == status){
+					System.out.println(u.getNickname() + ": " + " " + u.getName() + " " +
+						u.getSurname());	
 					s1.add(u.toString());
 				}
 			}
+			System.out.println(new String(new char[60]).replace("\0", "-"));
 			s = s1.toArray(new String[s1.size()]);
 		}			
 		else{
-			System.out.println("Not allowed to perform this action");
+			System.out.println("-> Error: Not allowed to perform this action");
 			return null;
 		}
 		return s;
@@ -373,17 +470,13 @@ public class Sistema {
 	
 	public boolean addNewFilm(Film f, Utente u){
 		if(!u.permesso.equals(Permesso.ADMIN)){
-			System.out.println("Not allowed to perform this action");
+			System.out.println("->Errore: Not allowed to perform this action");
 			return false;	
-		}
-		if(!u.isLoggedIn()){
-			System.out.println("Error! You must be logged.");
-			return false;
 		}
 		Iterator<Film> allFilm = listaFilm.values().iterator();
 		while (allFilm.hasNext()) {
 			if (allFilm.next().getIdFilm().equals(f.getIdFilm())) {
-				System.out.println("Movie already exist");
+				System.out.println("->Errore: Movie already exist");
 				return false;
 			}
 		}
@@ -400,12 +493,8 @@ public class Sistema {
 	
 	public boolean addNewCinema(Cinema c, Utente u){
 		if(!u.permesso.equals(Permesso.ADMIN)){
-			System.out.println("Not allowed to perform this action");
+			System.out.println("->Errore: Not allowed to perform this action");
 			return false;		
-		}
-		if(!u.isLoggedIn()){
-			System.out.println("Error! You must be logged.");
-			return false;
 		}
 		Iterator<Cinema> allCinema = listaCinema.values().iterator();
 		while (allCinema.hasNext()) {
@@ -416,7 +505,15 @@ public class Sistema {
 		listaCinema.put(c.getIdCinema(), c);
 		return true;
 	}
+	
+	public Film searchMovieById(String id){
+		return listaFilm.get(id);
+	}
 
+	public Cinema searchCinemaById(String id){
+		return listaCinema.get(id);
+	}
+	
 	public Admin getAdmin() {
 		return admin;
 	}
@@ -424,7 +521,129 @@ public class Sistema {
 	public void setAdmin(Admin admin) {
 		this.admin = admin;
 	}
+	
+	/** Restituisce l'elenco di prenotazioni di un Utente.
+	 * 
+	 * @param id - Id dell'Utente che ha fatto le prenotazioni
+	 * @return ArrayList<String>
+	 */
+	public ArrayList<String> searchPrenotazioni(String id){
+		ArrayList<String> retur = new ArrayList<String>();
+		Iterator<Entry<String, Cinema>> it = listaCinema.entrySet().iterator();
+		Iterator<Entry<String, Sala>> it2;
+		Iterator<Entry<String, Spettacolo>> it3;
+		Iterator<Entry<String, Seat>> it4;
+		HashMap<String, Sala> temp = new HashMap<String, Sala>();
+		HashMap<String, Seat> prenotazioni = new HashMap<String, Seat>();
+		HashMap<String, Spettacolo> temp2= new HashMap<String, Spettacolo>();
+		Spettacolo examine;
+		Seat tempseat;
+		while (it.hasNext()) {
+		    Entry<String, Cinema> pair = it.next();
+		    // Ho la lista di sale di un cinema	   
+		    temp = pair.getValue().getSaleMap();
+		    it2 = temp.entrySet().iterator();
+		    while (it2.hasNext()){
+		    	// Ho un'entry id, Sala
+		    	Entry<String, Sala> s = it2.next();
+		    	// Voglio un unico Spettacolo
+		    	temp2 = s.getValue().getListaSpettacoli();
+		    	it3 = temp2.entrySet().iterator();
+		    	while(it3.hasNext()){
+		    		//Ho un entry id, Spettacolo
+		    		Entry<String, Spettacolo> sp = it3.next();
+		    		//Voglio scandire tutte le prenotazioni	    		
+		    		examine = sp.getValue();
+		    		prenotazioni = examine.getPrenotazioni();
+		    		it4 = prenotazioni.entrySet().iterator();
+		    		while(it4.hasNext()){
+		    			Entry<String, Seat> seat = it4.next();
+		    			tempseat = seat.getValue();
+		    			System.out.println(tempseat.getClientId() + id);
+		    			if((!tempseat.isFree()) && 
+		    					tempseat.getClientId().equals(id)){
+		    				retur.add(prenotazioni.keySet() + " - " + sp.getValue().
+		    						getIdSpettacolo() + pair.getValue().getIdCinema() 
+		    						+ " - " + 
+		    				s.getValue().getSalaId() + " - " + sp.getValue().
+		    				getIdSpettacolo() + " - " + seat.getValue().getRow() 
+		    				+ " - " + seat.getValue().getColumn() + " - " +
+		    				seat.getValue().getClientId());
+		    			}
+		    		}
+		    	}    		
+		   }
+		}return retur;
+	}
+	
+/** Permette di abilitare/disabilitare propri dipendenti.
+ * 	
+ * @param datore - deve essere Admin o ManagerCinema
+ * @param utente - deve essere ManagerCinema o Cassiere
+ * @return true se l'operazione ha successo.
+ */
+	public boolean changeUserStatus(Utente datore, Utente utente){
+		if(!datore.permesso.isEmployer() || !utente.isEmployee() || 
+				utente.getClass() == Admin.class){
+			return false;
+		}
+		// Se il datore è admin o manager ( e in questo caso l'utente non è manager)
+		if((datore.getClass().equals(ManagerCinema.class) && !utente.getClass().equals(
+			ManagerCinema.class) && utente.getCinema().equals(datore.getCinema())) ||
+			datore.getClass().equals(Admin.class) ){
+				utente.setStatus(!utente.getStatus());
+				return true;
+		}
+		return false;	
+	}
+	
+	/** Stampa le informazioni del profilo di un impiegato
+	 * 
+	 * @param nickname impiegato
+	 * @return true se l'utente esiste ed ha ruolo di impiegato (non admin)
+	 */
+	public boolean printEmployeeProfile(String nickname){
+		Utente u = listaUtenti.get(nickname);
+		if(u == null){
+			System.out.println("-> Errore: Nickname specificato non trovato");
+			return false;
+		}
+		if(!u.isEmployee()){
+			return false;
+		}
+		u.showProfile();
+		return true;
+	}
+
+	/** Modifica le informazioni di un cinema in lista nel sistema.
+	 * 
+	 * @param c - Cinema da modificare
+	 * @return true - Se viene trovato un Cinema con lo stesso id da modificare
+	 */
+	public boolean modifyCinema(Cinema c){
+		Cinema t = listaCinema.get(c.getIdCinema());
+		if(t == null)
+			return false;
+		listaCinema.remove(c.getIdCinema());
+		listaCinema.put(c.getIdCinema(), c);
+		return true;
+	}
+	
+	/** Stampa le info di tutti i Cinema di cui l'Utente è responsabile
+	 * @param s
+	 * @return false se l'Utente non è responsabile di nessun Cinema, quindi se è un 
+	 * 				cassiere o clienteregistrato
+	 */
+	public boolean getMyCinema(Utente s){
+		if(s.getClass()==Admin.class){
+			listaCinema.forEach((k,v) -> v.printAllInfo());
+			return true;
+		}
+		if(s.getClass()==ManagerCinema.class){
+			listaCinema.get(s.getCinema()).printAllInfo();
+			return true;
+		}		
+		return false;
+	}
 }
-
-
 

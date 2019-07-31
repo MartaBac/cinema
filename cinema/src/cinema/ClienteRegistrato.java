@@ -28,4 +28,5 @@ public class ClienteRegistrato extends Utente {
 	public String getCinema() {
 		return null;
 	}
+	
 }

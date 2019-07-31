@@ -1,6 +1,11 @@
 package test_strutturali;
 
 import static org.junit.Assert.*;
+
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.PrintStream;
+
 import org.junit.Before;
 import org.junit.Test;
 import cinema.ClienteRegistrato;
@@ -61,10 +66,33 @@ public class ClienteRegistratoTest {
 	}
 	
 	@Test
-	public void testShowProfile(){
-		String s = "nickname: user0\nnome: Gino\ncognome: Cozzi\nemail: email@gmail.com\n"
-				+ "data di nascita: 15/02/1980\npermesso: USER";	
-    assertEquals(s, c.showProfile()); 	
+	public void testShowProfile() throws IOException{
+		String exp, test6;
+		String test = new String(new char[60]).replace("\0", " ");
+		exp = "Nickname: " + test.substring("Nickname: ".length(), 40) + 
+				 c.getNickname() + "\r\n" + 
+				"Name: " + test.substring("Name: ".length(), 40) + 
+				 c.getName() + "\r\n" + 
+				"Cognome: " + test.substring("Cognome: ".length(), 40) +
+				 c.getSurname() + "\r\n" + 
+				"E-mail: " + test.substring("E-mail: ".length(), 40) +
+				 c.getEmail() + "\r\n" + 
+				"Data di nascita: " + test.substring("Data di nascita: ".length(), 40) + 
+				 c.getBirth() + "\r\n" +
+				"Permesso: " + test.substring("Permesso: ".length(), 40) + 
+				 c.getPermessoObj() + "\r\n";
+		test6 = new String(new char[60]).replace("\0", "-");
+		exp = test6 + "\r\n" + exp + test6 + "\r\n";
+		ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+		System.setOut(new PrintStream(outContent));	
+		
+		String s = "nickname: " + c.getNickname() + "\nnome: "+c.getName() + 
+			"\ncognome: " + c.getSurname() +"\nemail: " + c.getEmail() +"\n"
+				+ "data di nascita: " + c.getBirth() + "\npermesso: " +
+			c.getPermessoObj();	
+		assertEquals(s, c.showProfile()); 
+		assertEquals(exp, outContent.toString());
+		outContent.close();
 	}
 	
 	@Test
@@ -111,5 +139,18 @@ public class ClienteRegistratoTest {
 	@Test
 	public void testGetPermesso(){
 		assertEquals(Permesso.USER.getPermission(),c.getPermesso());
+	}
+	
+	@Test
+	public void testGetPermessoObj(){
+		assertEquals(Permesso.USER,c.getPermessoObj());
+	}
+	
+	@Test
+	public void testSetLoggedIn(){
+		c.setLoggedIn(false);
+		assertFalse(c.isLoggedIn());
+		c.setLoggedIn(true);
+		assertTrue(c.isLoggedIn());
 	}
 }

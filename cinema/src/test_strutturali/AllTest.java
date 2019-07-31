@@ -12,12 +12,14 @@ import org.junit.runners.Suite;
 	ComparatorTest.class,
 	FilmTest.class,
 	ManagerCinemaTest.class,
+	PermessoTest.class,
 	SalaTest.class,
 	SeatTest.class,
+	SistemaParamTest.class,
 	SistemaTest.class,
-	SistemaTestParam.class,
-	spettacolo2DTest.class,
-	spettacolo3DTest.class
+	SistemaParamLoginTest.class,
+	Spettacolo2DTest.class,
+	Spettacolo3DTest.class
 })
 
 public class AllTest {

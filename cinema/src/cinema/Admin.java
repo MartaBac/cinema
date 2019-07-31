@@ -1,5 +1,12 @@
 package cinema;
 
+/**
+ * Rappresenta l'amministratore del sistema, del circuito nella sua totalità.
+ * Ci può essere un solo Admin.
+ * @author marta
+ *
+ */
+
 public final class Admin extends ManagerCinema {
 
 	public Admin( String nickname, String name, String surname, String email, String dateOfBirth,

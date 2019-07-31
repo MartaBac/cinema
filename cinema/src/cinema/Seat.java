@@ -15,6 +15,11 @@ public class Seat {
 		this.clientId = null;
 		this.id = "row" + this.row + "column" + this.column;
 	}
+	
+	@Override
+	public String toString(){
+		return id + " " + Integer.toString(row) + " " + Integer.toString(column);
+	}
 
 	public int getColumn() {
 		return column;
@@ -48,6 +53,7 @@ public class Seat {
 	 */
 	public boolean setOccupied(String u){
 		if(this.free == true){
+			System.out.println("Set to " + u);
 			this.setClientId(u);
 			this.free = false;
 			return true;

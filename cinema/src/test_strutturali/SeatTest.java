@@ -41,6 +41,12 @@ public class SeatTest {
 		s.setFree(false);
 		assertFalse(s.isFree());
 	}
+	
+	@Test
+	public void testToString(){
+		assertEquals(s.getId() + " " + Integer.toString(s.getRow()) + " " + 
+				Integer.toString(s.getColumn()), s.toString());
+	}
 
 	@Test
 	public void testSetUsable() {

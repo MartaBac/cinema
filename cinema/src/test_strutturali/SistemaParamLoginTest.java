@@ -20,7 +20,7 @@ import cinema.Sistema;
 import cinema.Utente;
 
 @RunWith(Parameterized.class)
-public class SistemaTestParam {
+public class SistemaParamLoginTest {
 	Admin admin;
 	Utente u,c,m,a;
 	Cinema cin;

@@ -2,14 +2,19 @@ package test_strutturali;
 
 import static org.junit.Assert.*;
 
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
 import java.math.BigDecimal;
+import java.util.ArrayList;
+
 import org.junit.Before;
 import org.junit.Test;
 import cinema.Sala;
+import cinema.Seat;
 import cinema.Spettacolo;
 import cinema.Spettacolo2D;
 
-public class spettacolo2DTest {
+public class Spettacolo2DTest {
 
 	Spettacolo2D s,s1;
 	Sala sala;
@@ -160,17 +165,83 @@ public class spettacolo2DTest {
 
 	@Test
 	public void testPrenote(){
+		ArrayList<Seat> se = new ArrayList<Seat>();
+		Seat s1 = new Seat(1,1,true);
+		se.add(s1);
 		// Posto non usabile
-		assertFalse(s.prenote(1,1,"id1"));
+		assertFalse(s.prenote(se,"id1"));
+		se.remove(s1);
+		s1 = new Seat(1,2,true);
+		se.add(s1);
 		// Posto usabile e libero
-		assertTrue(s.prenote(1,2,"id1"));
+		assertTrue(s.prenote(se,"id1"));
+		s1 = new Seat(1,2,true);
 		// Posto usabile ma occupato
-		assertFalse(s.prenote(1,2,"id2"));
+		assertFalse(s.prenote(se,"id2"));
 		// Prenotazione presente
 		assertNotNull(s.getPrenotazioni().get("row1column2"));
 		assertEquals("id1",s.getPrenotazioni().get("row1column2").getClientId());
 		// Prenotazione assente
 		assertNull(s.getPrenotazioni().get("row1column3"));
 	}
+	
+	@Test
+	public void testDeletePrenotazione(){
+		assertFalse("La cancellazione deve fallire perché non esiste tale prenotazione",
+				s.deletePrenotazione("notpresent"));
+		ArrayList<Seat> se = new ArrayList<Seat>();
+		Seat s1 = new Seat(1,2,true);
+		se.add(s1);
+		s.prenote(se,"id1");
+		assertTrue("Cancellazione della prenotazione appena avvenuta",
+				s.deletePrenotazione(s1.getId()));
+	}
+	
+	@Test
+	public void testGetFreeSeat(){
+		// Devono coincidere in quanto nessuna prenotazione è avvenuta
+		String k = sala.getUsableSeats();
+		int t = 0;
+		for(char c : k.toCharArray()) {
+		    if(c == '1') {
+		        t++;
+		    }
+		}
+		assertEquals(t,s.getFreeSeat().size());
+		ArrayList<Seat> se = new ArrayList<Seat>();
+		Seat s1 = new Seat(1,2,true);
+		se.add(s1);
+		s.prenote(se,"id1");
+		assertEquals(t-1,s.getFreeSeat().size());
+	}
+	
+	@Test
+	public void testGetPrenotazione(){
+		ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+		assertFalse(s.getPrenotazione("nulla"));
+		ArrayList<Seat> se = new ArrayList<Seat>();
+		Seat s1 = new Seat(1,2,true);
+		se.add(s1);
+		s.prenote(se,"Client");
+	    
+	    System.setOut(new PrintStream(outContent));
+	    assertTrue(s.getPrenotazione(s1.getId()));
+	    assertEquals(s1.toString().substring(0, s1.toString().length()) +"\r\n", 
+	    		outContent.toString()); 
+	}
+	   	
+	
+	@Test
+	public void testSetIdCinema(){
+		s.setIdCinema("2");
+		assertEquals("2",s.getIdCinema());
+	}
+	
+	@Test
+	public void testToString(){
+		assertEquals(s.getIdSpettacolo() + " " + s.getDateShow() + " " + 
+				s.getStartingTime() + " " + s.getIdSala(),  s.toString());
+	}
+	
 	
 }

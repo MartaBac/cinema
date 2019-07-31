@@ -1,6 +1,7 @@
 package cinema;
 
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map.Entry;
 
 public class Cinema {
@@ -18,7 +19,6 @@ public class Cinema {
 	}
 	
 	public boolean addSala(Sala sala ) {
-		System.out.println(sala.getSalaId());
 		if(listaSale.containsKey(sala.getSalaId())){
 			return false;
 		}
@@ -137,5 +137,37 @@ public class Cinema {
 		    		continue; 		
 		    }
 		return b;	
+	}
+	
+	/** Permette di ottenere un HashMap contenente tutti gli spettacoli in programma per 
+	 * un film specificato.
+	 * 
+	 * @param (String) idMovie - id del film di cui cercare gli spettacoli
+	 * @return HashMap<String, Spettacolo>
+	 */
+	public HashMap<String, Spettacolo> searchSpettacolo(String idMovie){
+		Iterator<Entry<String, Sala>> it = this.listaSale.entrySet().iterator();
+		Iterator<Entry<String, Spettacolo>> it2; 
+		HashMap<String, Spettacolo> temp = new HashMap<String, Spettacolo>();
+		Spettacolo s;
+		while (it.hasNext()) {
+		    Entry<String, Sala> pair = it.next();
+		    temp = pair.getValue().getListaSpettacoli();
+		    it2 = temp.entrySet().iterator();
+		    while (it2.hasNext()){
+		    	s = it2.next().getValue();
+		    	if(s.getIdMovie().equals(idMovie))
+		    		temp.put(s.getIdSpettacolo(), s);
+		    }
+		   }
+		return temp;
+	}
+	
+	/** Stampa l'elenco di spettacoli in programma nel cinema
+	 * 
+	 */
+	
+	public void printSpettacoli(){
+		this.listaSale.forEach((k,v)-> v.printSpettacoli());
 	}
 }

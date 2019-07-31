@@ -7,7 +7,7 @@ import org.junit.Test;
 import cinema.Sala;
 import cinema.Spettacolo3D;
 
-public class spettacolo3DTest {
+public class Spettacolo3DTest {
 	Sala sala;
 	Spettacolo3D s,s1;
 	@Before

@@ -21,5 +21,13 @@ public enum Permesso {
 	public int getPermission() {
 		return permission;
 	}
+	
+	public boolean isEmployer(){
+		if(this.permission==2||this.permission==3){
+			return true;
+		}
+		else
+			return false;
+	}
 }
 
