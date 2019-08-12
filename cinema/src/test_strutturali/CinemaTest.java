@@ -47,6 +47,8 @@ public class CinemaTest {
 	@Test
 	public void testAddSala() {
 		Sala s = new Sala("cinema0", "saala0", "0", 1, 1, 1);	
+		// Controllo non sia già presente
+		assertFalse(c.getSaleMap().containsValue(s));
 		// Aggiunta prima sala avvenuta con successo
 		assertTrue(c.addSala(s));
 		// Controllo la presenza della sala
@@ -74,7 +76,8 @@ public class CinemaTest {
 		assertNotNull(c.compareTag(s));
 		// Mi aspetto che la chiave di ricerca migliore sia Ariston, poi sanremo e cane, null uguali
 		assertEquals(0,(int) c.compareTag(s1));
-		assertTrue(c.compareTag(s1)==c.compareTag(s4)&&c.compareTag(s2)>c.compareTag(s1)&&c.compareTag(s2)>c.compareTag(s3) );
+		assertTrue(c.compareTag(s1)==c.compareTag(s4)&&c.compareTag(s2)>c.compareTag(s1)
+				&&c.compareTag(s2)>c.compareTag(s3) );
 		assertEquals(150,(int) c.compareTag(s));
 	}
 
@@ -111,7 +114,10 @@ public class CinemaTest {
 		assertTrue(c.addSala(sala));
 		Sala sala1 = new Sala("cinema0", "sala2", "011111", 6, 3, 2);
 		assertTrue(c.addSala(sala1));
+		assertTrue(c.getSaleMap().containsValue(sala1));
+		assertTrue(c.getSaleMap().containsKey(sala1.getSalaId()));
 		assertTrue(c.addSpettacoli(map));
+		assertEquals(map,c.getSaleMap().get(sala.getSalaId()).getListaSpettacoli());
 		// Inserisco nuovamente gli spettacoli precedenti 
 		assertFalse(c.addSpettacoli(map));
 		// Stessa procedura ma inserendo uno spettacolo con stesso id ma campi diversi
@@ -125,7 +131,7 @@ public class CinemaTest {
 		map.put(s3.getIdSpettacolo(), s3);
 		assertFalse(c.addSpettacoli(map));
 	}
-	
+
 	@Test
 	public void testSearchSpettacolo(){
 		Sala sala= new Sala("cinema0", "salaBLU", "011111", 6, 3, 2);
@@ -162,5 +168,4 @@ public class CinemaTest {
 				outContent.toString());
 		outContent.close();	
 	}
-
 }

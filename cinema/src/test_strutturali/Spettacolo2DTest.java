@@ -115,47 +115,7 @@ public class Spettacolo2DTest {
 		assertEquals(id,s.getSalaId());
 	}
 	
-	@Test
-	public void equals(){
 
-		Spettacolo s1 = new Spettacolo2D("spett0", "02/12/1999", "21:30", "23:30","0",
-				"mov",this.sala);
-		assertTrue(s1.equalsSpett(s1));
-		Spettacolo s2 = new Spettacolo2D("spett1", "02/12/1999", "21:30", "23:30","0",
-				"mov",this.sala);
-		// Diverso id spettacolo
-		assertFalse(s1.equalsSpett(s2));
-		Spettacolo s3 = new Spettacolo2D("spett0", "02/12/1998", "21:30", "23:30","0",
-				"mov",this.sala);
-		// Diversa data
-		assertFalse(s1.equalsSpett(s3));
-		Spettacolo s4 = new Spettacolo2D("spett0", "02/12/1999", "22:31", "23:30","0",
-				"mov",this.sala);
-		// Diverso StartingTime
-		assertFalse(s1.equalsSpett(s4));
-		Spettacolo s5 = new Spettacolo2D("spett0", "02/12/1999", "21:30", "23:31","0",
-				"mov",this.sala);
-		// Diverso endingTime
-		assertFalse(s1.equalsSpett(s5));
-		Spettacolo s6 = new Spettacolo2D("spett0", "02/12/1999", "21:30", "23:30","1",
-				"mov", this.sala);
-		// Different idCinema
-		assertFalse(s1.equalsSpett(s6));
-		Spettacolo s7 = new Spettacolo2D("spett0", "02/12/1999", "21:30", "23:30","0",
-				"mov2", this.sala);
-		// Different idMovie
-		assertFalse(s1.equalsSpett(s7));
-		// Diverso - vietato minori
-		Spettacolo s10 = new Spettacolo2D("spett0", "02/12/1999", "21:30", "23:30","0",
-				"mov",this.sala);
-		s10.setVietato(true);
-		assertFalse(s1.equalsSpett(s10));	
-		// Diversa salaId
-		Sala sass = new Sala("uh", "salaROSA", "011111", 6, 3, 2);
-		Spettacolo s9 = new Spettacolo2D("spett0", "02/12/1999", "21:30", "23:30","0",
-				"mov",sass);
-		assertFalse(s1.equalsSpett(s9));	
-	}
 	
 	@Test
 	public void testSetMovieId(){

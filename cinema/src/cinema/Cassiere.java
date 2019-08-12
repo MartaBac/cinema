@@ -3,7 +3,8 @@ package cinema;
 /**
  * Rappresenta un dipendente cassiere di uno specifico cinema della filiale.
  * Ci possono essere più cassieri per cinema, ma ognuno può lavorare per un unico cinema.
- * @author marta
+ * 
+ * @author Marta Bacigalupo
  */
 public class Cassiere extends Utente {
 	
@@ -12,21 +13,22 @@ public class Cassiere extends Utente {
 	protected boolean status;
 
 	/**
-	 * Costruttore di un oggetto di tipo Cassiere usando i parametri di input.
+	 * Costruttore di un oggetto di tipo <code>Cassiere</code> che chiama il costruttore
+	 *  della classe base <code>Utente</code>.
 	 *
 	 * Chiama il costruttore della classe Utente.java.
 	 * 
-	 * @param  nickname					Il nickname del Cassiere (id)
-	 * @param  name						Il nome proprio del Cassiere
-	 * @param  surname					Il cognome del Cassiere
-	 * @param  email					L'email del Cassiere
-	 * @param  dateOfBirth				La data di nascita del Cassiere
-	 * @param  password					La password per l'accesso del Cassiere
-	 * @param  phoneNumber				Il numero di telefono del Cassiere
-	 * @param cinemaId					L'id del cinema di cui è dipendente il Cassiere
+	 * @param  nickname					Il nickname del <code>Cassiere</code> (id)
+	 * @param  name						Il nome proprio
+	 * @param  surname					Il cognome
+	 * @param  email					L'indirizzo e-mail
+	 * @param  dateOfBirth				La data di nascita
+	 * @param  password					La password per l'accesso
+	 * @param  phoneNumber				Il numero di telefono
+	 * @param cinemaId					L'id del cinema di cui è dipendente
 	 */
-	public Cassiere( String nickname, String name, String surname, String email, String dateOfBirth,
-			String password, String phoneNumber, String cinemaId) {
+	public Cassiere( String nickname, String name, String surname, String email, 
+			String dateOfBirth, String password, String phoneNumber, String cinemaId) {
 		super( nickname, name, surname, email, dateOfBirth, password);
 		this.phoneNumber = phoneNumber;
 		this.cinemaId = cinemaId;
@@ -62,19 +64,37 @@ public class Cassiere extends Utente {
 		return s;
 	}
 
-
+	/**
+	 * Sets il numero di telefono del Cinema
+	 * 
+	 * @param String numero del telefono
+	 */
 	public void setPhone(String phoneNumber) {
 		this.phoneNumber = phoneNumber;
 	}
 
+	/**
+	 * Permette di settare lo stato.
+	 * 
+	 * @param boolean status
+	 */
 	public void setStatus(boolean status) {
 		this.status = status;
 	}
 
+	/** Ritorna lo stato, se è attivo o meno.
+	 * 
+	 * @return true se attivo
+	 */
 	public boolean getStatus() {
 		return this.status;
 	}
 
+	/**
+	 * Sets l'id del Cinema
+	 * 
+	 * @param String id del cinema
+	 */
 	public void setCinemaId(String cinemaId) {
 		this.cinemaId = cinemaId;
 	}

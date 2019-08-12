@@ -12,11 +12,14 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 /**
- * Classe <code>Sistema</code> raccoglie le informazioni di tutto il circuito di cinema
+ * Classe <code>Sistema</code> raccoglie le informazioni di tutto il circuito di cinema.
+ * Ha l'attributo admin che è l'amministratore sistema, la listaUtenti che è una 
+ * mappa contenente tutti gli utenti del sistema -tranne l'admin- come value e il loro id
+ * è usato come key, listaCinema è una mappa di cinema(value) con come key il loro id;
+ * listaFilm è anch'essa mappa con key = id, value = Film.
  * 
  * @version 1.00
  * @author Marta Bacigalupo
- *
  */
 
 public class Sistema {
@@ -46,7 +49,6 @@ public class Sistema {
 	 * @param password - password d'accesso
 	 * 
 	 */
-
 	public boolean login(String username, String password) {
 		Utente u;
 		if(!listaUtenti.containsKey(username)){
@@ -99,8 +101,9 @@ public class Sistema {
 	
 	/**
 	 * Stampa l'elenco di film presenti, specificandone nome e genere.
+	 * 
+	 * @return false se la lista è vuota, true altrimenti
 	 */
-	
 	public boolean printMovieList(){	
 		if(listaFilm.size()==0)
 			return false;
@@ -113,8 +116,9 @@ public class Sistema {
 	
 	/**
 	 * Stampa l'elenco di Cinema del circuito
+	 * 
+	 * @return false se la listaCinema è vuota, altrimenti ritorna true
 	 */
-	
 	public boolean printCinemaList(){
 		if(listaCinema.size()==0)
 			return false;
@@ -129,7 +133,7 @@ public class Sistema {
 	 * Aggiunge un nuovo utente nella lista utenti del circuito
 	 * 
 	 * @param u
-	 * @return esito aggiunta
+	 * @return true se l'aggiunta avviente, false altrimenti
 	 */
 	public boolean addNewUser(Utente u){
 		if(listaUtenti.containsKey(u.getNickname())){
@@ -154,19 +158,21 @@ public class Sistema {
 		switch(d.getPermesso()) {
 		case 3:
 			if(u.getPermesso()!=2 && u.getPermesso()!=1){
-				System.out.println("-> Errore: Impossibile creare account di questa classe.");
+				System.out.println("-> Errore: Impossibile creare account di questa "
+						+ "classe.");
 				return false;
 			}
 			break;
 		case 2:
 			if(u.getPermesso()!=1){
-				System.out.println("->Errore: Impossibile creare account di questa classe.");
+				System.out.println("->Errore: Impossibile creare account di questa "
+						+ "classe.");
 				return false;	
 			}
 			else{
 				if(d.getCinema()!=u.getCinema()){
-					System.out.println("->Errore:  Impossibile creare account dipendente "
-							+ "del cinema richiesto.");
+					System.out.println("->Errore:  Impossibile creare account dipendente"
+							+ " del cinema richiesto.");
 					return false;		
 				}
 			}
@@ -186,18 +192,18 @@ public class Sistema {
 	
 	/**
 	 * Setta gli utenti del sistema
+	 * 
 	 * @param u - HashMap di utenti
 	 */
-	
 	public void setUtenti( HashMap<String, Utente> u){	
 		Sistema.listaUtenti = u;
 	}
 	
 	/**
 	 * Setta i cinema del circuito
+	 * 
 	 * @param cin - HashMap contenente i cinema
 	 */
-	
 	public boolean setCinema( HashMap<String, Cinema> cin){	
 		if(cin == null){
 			System.out.println("->Errore: null input");
@@ -209,9 +215,9 @@ public class Sistema {
 	
 	/**
 	 * Setta i film del circuito
+	 * 
 	 * @param cin - HashMap contenente i film
 	 */
-	
 	public boolean setMovie( HashMap<String, Film> cin){	
 		if(cin == null){
 			System.out.println("->Errore: null input");
@@ -245,7 +251,8 @@ public class Sistema {
 		Collections.sort(list, new Comparator<Entry<String, Integer>>(){
 
 			@Override
-			public int compare(Map.Entry<String, Integer> arg1, Map.Entry<String, Integer> arg0) {
+			public int compare(Map.Entry<String, Integer> arg1, Map.Entry<String, 
+					Integer> arg0) {
 				return arg0.getValue().compareTo(arg1.getValue());
 			}
 		});		
@@ -268,7 +275,6 @@ public class Sistema {
 	 * @param tag
 	 * @return HashMap contenente i cinema in ordine dal più inerente ai tag al meno
 	 */
-	
 	public LinkedHashMap<String, Cinema> searchCinema(String[] tag){
 		LinkedHashMap<String, Cinema> cin = new LinkedHashMap<String, Cinema>();
 		Integer score = null;
@@ -286,7 +292,8 @@ public class Sistema {
 		Collections.sort(list, new Comparator<Entry<String, Integer>>(){
 
 		@Override
-		public int compare(Map.Entry<String, Integer> arg1, Map.Entry<String, Integer> arg0) {
+		public int compare(Map.Entry<String, Integer> arg1, Map.Entry<String, 
+				Integer> arg0) {
 			return arg0.getValue().compareTo(arg1.getValue());
 		}
 		});
@@ -313,7 +320,6 @@ public class Sistema {
 	 * @param cinemaId
 	 * @return String
 	 */
-	
 	public String showCinema(String cinemaId){
 		String s = null;
 		try{
@@ -330,7 +336,6 @@ public class Sistema {
 	 * @param movieId
 	 * @return String
 	 */
-	
 	public String showMovie(String movieId){
 		String s = null;
 		try{
@@ -346,7 +351,6 @@ public class Sistema {
 	 * 
 	 * @return String[] dei dipendenti
 	 */
-	
 	public String[]  printUserList(){
 		ArrayList<String> s1 = new ArrayList<String>();
 		String[] s = new String[]{};
@@ -368,7 +372,6 @@ public class Sistema {
 	 * @param datore - specifica chi è il datore di lavoro
 	 * @return String[] dei dipendenti 
 	 */
-	
 	public String[]  printMyEmployeeList(Utente datore){
 		ArrayList<String> s1 = new ArrayList<String>();
 		String[] s = new String[]{};
@@ -376,7 +379,8 @@ public class Sistema {
 			System.out.println(new String(new char[60]).replace("\0", "-"));
 			for (Map.Entry<String, Utente> entry: listaUtenti.entrySet()){
 				if(entry.getValue().getPermesso()==Permesso.CASSIERE.getPermission()||
-						entry.getValue().getPermesso()==Permesso.MANAGER.getPermission()){
+						entry.getValue().getPermesso()==
+						Permesso.MANAGER.getPermission()){
 					System.out.println(entry.getValue().toString());
 					s1.add(entry.getValue().toString());
 				}
@@ -395,7 +399,8 @@ public class Sistema {
 				u = i.next();
 				if(u.getPermesso() == Permesso.CASSIERE.getPermission() && 
 						u.getCinema().equals(cinema)){
-					System.out.println(u.getNickname() + ": " + " " + u.getName() + " " + u.getSurname());	
+					System.out.println(u.getNickname() + ": " + " " + u.getName() + " "
+						+ u.getSurname());	
 					s1.add(u.toString());
 				}
 			}
@@ -417,7 +422,6 @@ public class Sistema {
 	 * @param status - specifica se voglio ottenere gli attivi o inattivi
 	 * @return String[] dei dipendenti - se loggato -
 	 */
-	
 	public String[]  printMyEmployeeList(Utente datore, boolean status){
 		ArrayList<String> s1 = new ArrayList<String>();
 		String[] s = new String[]{};
@@ -467,7 +471,6 @@ public class Sistema {
 	 * @param u - Utente che tenta di fare l'azione
 	 * @return true se aggiunto con successo
 	 */
-	
 	public boolean addNewFilm(Film f, Utente u){
 		if(!u.permesso.equals(Permesso.ADMIN)){
 			System.out.println("->Errore: Not allowed to perform this action");
@@ -490,7 +493,6 @@ public class Sistema {
 	 * @param u - Utente che tenta di fare l'azione
 	 * @return true se aggiunto con successo
 	 */
-	
 	public boolean addNewCinema(Cinema c, Utente u){
 		if(!u.permesso.equals(Permesso.ADMIN)){
 			System.out.println("->Errore: Not allowed to perform this action");
@@ -506,18 +508,40 @@ public class Sistema {
 		return true;
 	}
 	
+	/**
+	 * Permette di ottenere l'oggetto Film cercandolo per id
+	 * 
+	 * @param String id
+	 * @return Film
+	 */
 	public Film searchMovieById(String id){
 		return listaFilm.get(id);
 	}
 
+	/**
+	 * Permette di ottenere l'oggetto Cinema cercandolo per id
+	 * 
+	 * @param String id
+	 * @return Cinema
+	 */
 	public Cinema searchCinemaById(String id){
 		return listaCinema.get(id);
 	}
 	
+	/**
+	 * Ritorna l'oggetto Admin del sistema.
+	 * 
+	 * @return Admin
+	 */
 	public Admin getAdmin() {
 		return admin;
 	}
 
+	/**
+	 * Setta l'admin del sistema ad un Admin
+	 * 
+	 * @param admin
+	 */
 	public void setAdmin(Admin admin) {
 		this.admin = admin;
 	}

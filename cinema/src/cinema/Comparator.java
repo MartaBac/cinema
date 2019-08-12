@@ -1,11 +1,16 @@
 package cinema;
 
 /**
- * 
- * Viene utilizzato per la ricerca, per contare il numero di occorrenze di una stringa.
+ *  Viene utilizzato per la ricerca, per contare il numero di occorrenze di una stringa.
+ *  
+ * @author Marta Bacigalupo
  */
 public class Comparator {
 	private int count;
+	
+	/**
+	 * Costruisce un oggetto di tipo <code>Comparator</code>
+	 */
 	public Comparator(){
 		this.count = 0;
 	}
@@ -13,8 +18,8 @@ public class Comparator {
 	/**
 	 * Assegna un punteggio in base a quante volte appare la parola
 	 * 
-	 * @param tag - Stringa da verificare se presente
-	 * @param s - Stringa che potrebbe contenere 'tag'
+	 * @param tag Stringa da verificare se presente
+	 * @param s Stringa che potrebbe contenere 'tag'
 	 * @return count - Il numero di occorrenze di tag in s
 	 */
 	public int Compare(String tag,String s){
@@ -28,8 +33,8 @@ public class Comparator {
 	/**
 	 * Assegna un punteggio in base a quante volte appare la parola
 	 * 
-	 * @param tag - Stringa da verificare se presente
-	 * @param s - Array di Stringhe che potrebbero contenere 'tag'
+	 * @param tag Stringa da verificare se presente
+	 * @param s Array di Stringhe che potrebbero contenere 'tag'
 	 * @return count - il numero di volte che si è trovato 'tag' nelle 's'
 	 */
 	public int Compare(String tag, String[] s){
