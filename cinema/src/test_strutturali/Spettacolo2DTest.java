@@ -181,13 +181,15 @@ public class Spettacolo2DTest {
 		assertFalse(s.getPrenotazione("nulla"));
 		ArrayList<Seat> se = new ArrayList<Seat>();
 		Seat s1 = new Seat(1,2,true);
+		String st;
 		se.add(s1);
 		s.prenote(se,"Client");
-	    
+	    st = new String(new char[60]).replace("\0", "-") + "\r\n";
+	    st += s1.toString().substring(0, s1.toString().length()) +"\r\n";
+	    st += new String(new char[60]).replace("\0", "-") + "\r\n";
 	    System.setOut(new PrintStream(outContent));
 	    assertTrue(s.getPrenotazione(s1.getId()));
-	    assertEquals(s1.toString().substring(0, s1.toString().length()) +"\r\n", 
-	    		outContent.toString()); 
+	    assertEquals(st, outContent.toString()); 
 	}
 	   	
 	

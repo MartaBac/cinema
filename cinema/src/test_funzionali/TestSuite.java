@@ -20,8 +20,11 @@ import org.junit.runners.Suite;
 	UC28.class,
 	UC29.class,
 	UC31.class,
+	UC33.class,
 	UC35.class,
-	UC36.class
+	UC36.class,
+	UC39.class,
+	UC40.class
 })
 public class TestSuite {
 	

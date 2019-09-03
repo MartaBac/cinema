@@ -22,9 +22,9 @@ import java.util.Map.Entry;
 
 public class Sala {
 	private String cinemaId, name, usableSeats;
-	String salaId;
+	private String salaId;
 	private Integer capacity,rows,columns;
-	Map<Seat, String> map;
+	private Map<Seat, String> map;
 	private HashMap<String, Spettacolo> listaSpettacoli;
 
 	/**
@@ -100,7 +100,7 @@ public class Sala {
 	/**
 	 * Sets la stringa che indica l'usabilità dei sedili
 	 * 
-	 * @param usableSeats 
+	 * @param usableSeats stringa di 0 e 1 che indica se i sedili sono agibili(1) o no(0)
 	 */
 	public void setUsableSeats(String usableSeats) {
 		if(usableSeats!=null && usableSeats.matches("^[01]+$") && usableSeats.length()==
@@ -122,7 +122,7 @@ public class Sala {
 	/**
 	 * Sets il nome della Sala
 	 * 
-	 * @param name
+	 * @param name nome della Sala
 	 */
 	public void setName(String name) {
 		this.name = name;
@@ -227,9 +227,7 @@ public class Sala {
 		if(this.listaSpettacoli.containsKey(s.getIdSpettacolo())){
 			return false;
 		}
-		System.out.println("size " + this.listaSpettacoli.size());
 		this.listaSpettacoli.put(s.getIdSpettacolo(), s);
-		System.out.println("size after put " + this.listaSpettacoli.size());
 		return true;
 	}
 	

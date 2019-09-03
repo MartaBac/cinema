@@ -3,7 +3,6 @@ package test_funzionali;
 import static org.junit.Assert.*;
 
 import org.junit.AfterClass;
-import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import cinema.Admin;
@@ -49,8 +48,13 @@ public class UC9 {
 		// Torna al passo 2 dello scenario principale
 		}
 	
-	@AfterClass
-	public static void tearDownAfterClass(){
-		s = null;
+	// Scenario alternativo 3a: L'attore annulla l'operazione
+	@Test
+	public void UC9_scenarioAlternativo_3A() {
+		// 1 - L'attore richiede di effettuare l'autenticazione
+		// 2 - Il sistema richiede i dati di accesso
+		// 3a - L'attore comunica al sistema di voler interrompere l'operazione
+		// Il caso d'uso termina
 	}
+
 }

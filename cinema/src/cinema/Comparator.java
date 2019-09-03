@@ -22,7 +22,7 @@ public class Comparator {
 	 * @param s Stringa che potrebbe contenere 'tag'
 	 * @return count - Il numero di occorrenze di tag in s
 	 */
-	public int Compare(String tag,String s){
+	public int compare(String tag,String s){
 		this.count = 0;
 		if( ((String) s).contains(tag)){
 			count++;
@@ -37,7 +37,7 @@ public class Comparator {
 	 * @param s Array di Stringhe che potrebbero contenere 'tag'
 	 * @return count - il numero di volte che si è trovato 'tag' nelle 's'
 	 */
-	public int Compare(String tag, String[] s){
+	public int compare(String tag, String[] s){
 		int count = 0;		
 		for(String comp : (String[]) s){
 			if(comp.contains(tag))

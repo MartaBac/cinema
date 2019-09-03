@@ -5,20 +5,16 @@ import static org.junit.Assert.*;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 
-import org.junit.AfterClass;
-import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
 import cinema.Admin;
-import cinema.Cinema;
 import cinema.Film;
 import cinema.Sistema;
 
 public class UC7 {
 	static Sistema sistema;
 	static Admin a; 
-
 	static Film f, f1;
 
 	@BeforeClass
@@ -98,9 +94,4 @@ public class UC7 {
 			// 6b - L'attore seleziona un film da visualizzare
 			// Va ad UC8 -  visualizzazione scheda film
 		}	
-		
-		@AfterClass
-		public static void tearDownAfterClass(){
-			sistema = null;
-		}
 }

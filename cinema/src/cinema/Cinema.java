@@ -2,7 +2,6 @@ package cinema;
 
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.Map;
 import java.util.Map.Entry;
 
 
@@ -15,8 +14,7 @@ import java.util.Map.Entry;
  */
 public class Cinema {
 	
-	private String idCinema;
-	private String nome,citta, indirizzo;
+	private String idCinema, nome, citta, indirizzo;
 	private HashMap<String, Sala> listaSale;
 
 	/**
@@ -89,9 +87,9 @@ public class Cinema {
 		for(String e : t){
 			if(e == null)
 				continue;
-			count[0] = count[0] + c.Compare(e, this.nome);
-			count[1] = count[1] + c.Compare(e, this.citta);
-			count[2] = count[2] + c.Compare(e, this.indirizzo);
+			count[0] = count[0] + c.compare(e, this.nome);
+			count[1] = count[1] + c.compare(e, this.citta);
+			count[2] = count[2] + c.compare(e, this.indirizzo);
 		}	
 	
 		for(int j=0; j<count.length; j++){
@@ -117,7 +115,7 @@ public class Cinema {
 	/**
 	 * Sets il nome del Cinema
 	 * 
-	 * @param String nome del cinema
+	 * @param nome nome del cinema
 	 */
 	public void setNome(String nome) {
 		this.nome = nome;
@@ -144,7 +142,7 @@ public class Cinema {
 	/**
 	 * Sets l'indirizzo del Cinema
 	 * 
-	 * @param String indirizzo del cinema
+	 * @param indirizzo indirizzo del cinema
 	 */
 	public void setIndirizzo(String indirizzo) {
 		this.indirizzo = indirizzo;
@@ -171,7 +169,7 @@ public class Cinema {
 	/**
 	 * Sets la città del Cinema
 	 * 
-	 * @param String nome della città in cui vi è il cinema
+	 * @param citta nome della città in cui vi è il cinema
 	 */
 	public void setCitta(String citta) {
 		this.citta = citta;
@@ -221,8 +219,9 @@ public class Cinema {
 	 * Permette di ottenere un HashMap contenente tutti gli spettacoli in programma per 
 	 * un film specificato.
 	 * 
-	 * @param String id del film di cui cercare gli spettacoli
-	 * @return HashMap<String, Spettacolo>
+	 * @param idMovie id del film di cui cercare gli spettacoli
+	 * @return HashMap contenente gli spettacoli del film cercato, con key pari a
+	 *  idSpettacolo e value Spettacolo
 	 */
 	public HashMap<String, Spettacolo> searchSpettacolo(String idMovie){
 		Iterator<Entry<String, Sala>> it = this.listaSale.entrySet().iterator();

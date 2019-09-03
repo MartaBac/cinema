@@ -47,7 +47,7 @@ public class Sistema {
 	 * 
 	 * @param username - nome d'accesso dell'utente
 	 * @param password - password d'accesso
-	 * 
+	 * @return true se il login ha successo, false altrimenti
 	 */
 	public boolean login(String username, String password) {
 		Utente u;
@@ -132,11 +132,12 @@ public class Sistema {
 	/**
 	 * Aggiunge un nuovo utente nella lista utenti del circuito
 	 * 
-	 * @param u
-	 * @return true se l'aggiunta avviente, false altrimenti
+	 * @param u utente da aggiungere
+	 * @return true se l'aggiunta avviene, false altrimenti
 	 */
 	public boolean addNewUser(Utente u){
-		if(listaUtenti.containsKey(u.getNickname())){
+		if(listaUtenti.containsKey(u.getNickname())||u.getNickname().
+				equals(admin.getNickname())){
 			System.out.println("-> Errore: Account già esistente");
 			return false;
 		}else
@@ -181,7 +182,8 @@ public class Sistema {
 			System.out.println("->Errore: Permesso negato.");
 			return false;
 		}
-		if(listaUtenti.containsKey(u.getNickname())){
+		if(listaUtenti.containsKey(u.getNickname())||admin.getNickname().equals(
+				u.getNickname())){
 			System.out.println("-> Errore: Account già esistente " + u.getNickname());
 			return false;
 		}else{
@@ -202,7 +204,8 @@ public class Sistema {
 	/**
 	 * Setta i cinema del circuito
 	 * 
-	 * @param cin - HashMap contenente i cinema
+	 * @param cin HashMap contenente i cinema
+	 * @return true se il set avviene con successo
 	 */
 	public boolean setCinema( HashMap<String, Cinema> cin){	
 		if(cin == null){
@@ -216,7 +219,8 @@ public class Sistema {
 	/**
 	 * Setta i film del circuito
 	 * 
-	 * @param cin - HashMap contenente i film
+	 * @param cin HashMap contenente i film
+	 * @return true se set avvenuto con successo
 	 */
 	public boolean setMovie( HashMap<String, Film> cin){	
 		if(cin == null){
@@ -230,7 +234,7 @@ public class Sistema {
 	/**
 	 * Effettua la ricerca di film in base a key-words e stampa i risultati.
 	 * 
-	 * @param tag
+	 * @param tag parole chiave da cercare
 	 * @return HashMap contenente i film in ordine dal più inerente ai tag al meno
 	 */
 	
@@ -272,7 +276,7 @@ public class Sistema {
 	/**
 	 * Fa la ricerca di Cinema del circuito in base a key-words e stampa i risultati.
 	 * 
-	 * @param tag
+	 * @param tag key-words che vengono cercate
 	 * @return HashMap contenente i cinema in ordine dal più inerente ai tag al meno
 	 */
 	public LinkedHashMap<String, Cinema> searchCinema(String[] tag){
@@ -308,17 +312,17 @@ public class Sistema {
 		for(String id : sortedMap.keySet()){
 			listaCinema.get(id).printBaseInfo();
 			cin.put(id, listaCinema.get(id));
-		}
-		System.out.println(new String(new char[60]).replace("\0", "-"));
+		}		
 		cin.forEach((id, cinema) -> System.out.println(cinema.toString()));
+		System.out.println(new String(new char[60]).replace("\0", "-"));
 		return cin;
 	}
 	
 	/**
 	 * Restituisce tutte le informazioni su un cinema
 	 * 
-	 * @param cinemaId
-	 * @return String
+	 * @param cinemaId id del cinema
+	 * @return String stringa contenente le informazioni su un cinema
 	 */
 	public String showCinema(String cinemaId){
 		String s = null;
@@ -333,8 +337,8 @@ public class Sistema {
 	/**
 	 * Restituisce tutte le informazioni su un film
 	 * 
-	 * @param movieId
-	 * @return String
+	 * @param movieId id del film
+	 * @return String stringa contenente le informazioni del film
 	 */
 	public String showMovie(String movieId){
 		String s = null;
@@ -511,8 +515,8 @@ public class Sistema {
 	/**
 	 * Permette di ottenere l'oggetto Film cercandolo per id
 	 * 
-	 * @param String id
-	 * @return Film
+	 * @param id id del film
+	 * @return film corrispondente all'id
 	 */
 	public Film searchMovieById(String id){
 		return listaFilm.get(id);
@@ -521,8 +525,8 @@ public class Sistema {
 	/**
 	 * Permette di ottenere l'oggetto Cinema cercandolo per id
 	 * 
-	 * @param String id
-	 * @return Cinema
+	 * @param id id del cinema da cercare
+	 * @return Cinema corrispondente all'id
 	 */
 	public Cinema searchCinemaById(String id){
 		return listaCinema.get(id);
@@ -540,7 +544,7 @@ public class Sistema {
 	/**
 	 * Setta l'admin del sistema ad un Admin
 	 * 
-	 * @param admin
+	 * @param admin amministratore del sistema
 	 */
 	public void setAdmin(Admin admin) {
 		this.admin = admin;
@@ -548,8 +552,8 @@ public class Sistema {
 	
 	/** Restituisce l'elenco di prenotazioni di un Utente.
 	 * 
-	 * @param id - Id dell'Utente che ha fatto le prenotazioni
-	 * @return ArrayList<String>
+	 * @param id Id dell'Utente che ha fatto le prenotazioni
+	 * @return ArrayList di Stringhe contenente le prenotazioni dell'utente
 	 */
 	public ArrayList<String> searchPrenotazioni(String id){
 		ArrayList<String> retur = new ArrayList<String>();
@@ -583,7 +587,6 @@ public class Sistema {
 		    		while(it4.hasNext()){
 		    			Entry<String, Seat> seat = it4.next();
 		    			tempseat = seat.getValue();
-		    			System.out.println(tempseat.getClientId() + id);
 		    			if((!tempseat.isFree()) && 
 		    					tempseat.getClientId().equals(id)){
 		    				retur.add(prenotazioni.keySet() + " - " + sp.getValue().
@@ -654,7 +657,7 @@ public class Sistema {
 	}
 	
 	/** Stampa le info di tutti i Cinema di cui l'Utente è responsabile
-	 * @param s
+	 * @param s utente di cui si vogliono cercare i cinema di cui è responsabile
 	 * @return false se l'Utente non è responsabile di nessun Cinema, quindi se è un 
 	 * 				cassiere o clienteregistrato
 	 */

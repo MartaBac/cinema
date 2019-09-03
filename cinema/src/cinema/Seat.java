@@ -46,7 +46,7 @@ public class Seat {
 	/**
 	 * Sets il numero della colonna 
 	 * 
-	 * @param int - column
+	 * @param column numero colonne
 	 */
 	public void setColumn(int column) {
 		this.column = column;
@@ -64,7 +64,7 @@ public class Seat {
 	/**
 	 * Sets il numero di riga
 	 * 
-	 * @param int - row
+	 * @param row numero righe
 	 */
 	public void setRow(int row) {
 		this.row = row;
@@ -82,7 +82,7 @@ public class Seat {
 	/**
 	 * Permette di impostare il sedile allo stato di occupato o libero
 	 * 
-	 * @param boolean - b
+	 * @param b true per impostarlo a libero, false ad occupato
 	 */
 	public void setFree(boolean b) {
 		this.free = b;
@@ -96,7 +96,8 @@ public class Seat {
 	 */
 	public boolean setOccupied(String u){
 		if(this.free == true){
-			System.out.println("Set to " + u);
+			System.out.println("**Seat " + this.row + "x" + this.column + " is now "
+					+ "occupied by " + u);
 			this.setClientId(u);
 			this.free = false;
 			return true;
@@ -117,7 +118,7 @@ public class Seat {
 	/**
 	 * Sets lo stato di usabilità di un sedile 
 	 * 
-	 * @param boolean - usable
+	 * @param usable true = usabile, false = non usabile
 	 */
 	public void setUsable(boolean usable) {
 		this.usable = usable;
@@ -135,7 +136,7 @@ public class Seat {
 	/**
 	 * Sets l'id del sedile
 	 * 
-	 * @param String id
+	 * @param id id del Seat
 	 */
 	public void setId(String id) {
 		this.id = id;
@@ -153,7 +154,7 @@ public class Seat {
 	/**
 	 * Sets clientId
 	 * 
-	 * @param clientId
+	 * @param clientId id del cliente
 	 */
 	public void setClientId(String clientId) {
 		this.clientId = clientId;

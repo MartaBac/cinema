@@ -74,7 +74,7 @@ public abstract class Utente {
 	/**
 	 * Ritorna se l'utente è loggato o meno
 	 * 
-	 * @return isLoggedIn - true se è loggato
+	 * @return isLoggedIn true se è loggato
 	 */
 	public boolean isLoggedIn() {
 		return isLoggedIn;
@@ -84,7 +84,7 @@ public abstract class Utente {
 	 * Cambia lo stato di autenticazione dell'Utente. Imposta isLoggedIn ad un parametro
 	 * boolean specificato.
 	 * 
-	 * @param boolean - isLoggedIn
+	 * @param isLoggedIn true significa che è loggato, false che non lo è
 	 */
 	public void setLoggedIn(boolean isLoggedIn) {
 		this.isLoggedIn = isLoggedIn;
@@ -102,7 +102,7 @@ public abstract class Utente {
 	/**
 	 * Sets il nome dell'Utente
 	 * 
-	 * @param String name
+	 * @param name nome utente
 	 */
 	public void setName(String name) {
 		this.name = name;
@@ -120,7 +120,7 @@ public abstract class Utente {
 	/**
 	 * Sets il cognome dell'Utente.
 	 * 
-	 * @param String surname
+	 * @param surname cognome
 	 */
 	public void setSurname(String surname) {
 		this.surname = surname;
@@ -138,7 +138,7 @@ public abstract class Utente {
 	/**
 	 * Sets il nickname dell'Utente
 	 * 
-	 * @param String nickname
+	 * @param nickname nickname utente
 	 */
 	public void setNickname(String nickname) {
 		this.nickname = nickname;
@@ -156,7 +156,7 @@ public abstract class Utente {
 	/**
 	 * Sets l'indirizzo email
 	 * 
-	 * @param String email
+	 * @param email email utente
 	 */
 	public void setEmail(String email) {
 		this.email = email;
@@ -174,7 +174,7 @@ public abstract class Utente {
 	/**
 	 * Sets la data di nascita dell'Utente
 	 * 
-	 * @param birth
+	 * @param birth data di nascita dell'utente
 	 */
 	public void setBirth(String birth) {
 		this.dateOfBirth = birth;

@@ -42,6 +42,18 @@ public class UC6 {
 		assertFalse(test.printAllInfo().isEmpty());
 		// 3- L'attore chiude la scheda
 	}
+	
+	// Scenario alternativo 3a: L'attore richiede di modificare la scheda cinema
+	// Il testing di esso è presente nel test_funzionale di UC36
+		@Test
+		public void UC6_scenarioAlternativo_3A() {
+			// 1 - L'attore richiede di visualizzare la scheda cinema
+			// 2- Il sistema restituisce la scheda
+			Cinema test = sistema.searchCinemaById(c1.getIdCinema());
+			assertFalse(test.printAllInfo().isEmpty());
+			// 3b - L'attore richiede di modificare la scheda cinema
+			// Esecuzione UC36 - Modifica scheda cinema
+		}	
 		
 	// Scenario alternativo 3b: L'attore richiede d effetuare la prenotazione di uno
 	// spettacolo.
@@ -54,11 +66,6 @@ public class UC6 {
 			assertFalse(test.printAllInfo().isEmpty());
 			// 3b - L'attore richiede di effettuare la prenotazione di uno spettacolo
 			// Esecuzione UC15 - Prenotazione
-		}	
-		
-		@AfterClass
-		public static void tearDownAfterClass(){
-			sistema = null;
-		}
+		}		
 }
 

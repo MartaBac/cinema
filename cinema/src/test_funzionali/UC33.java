@@ -48,7 +48,6 @@ public class UC33 {
 				"psw123");
 		cassiere = new Cassiere("cassiere0","Alda", "Bosi", "mail@mail.com","13/07/1977",
 				"psw1234","+3334556678","0");
-		cassiere.setStatus(true);
 		manager = new ManagerCinema("man0","Marco", "Bisi", "libe@email.com","11/11/1977",
 				"1234","+3344556678","0");
 		c = new Cinema( "0","Ariston", "Sanremo", "Via Puggia 2");
@@ -61,17 +60,10 @@ public class UC33 {
 				"Spagna", act,genre, tag,prod,dir);
 		
 		s = new Sistema(admin);
-		admin.setLoggedIn(true);
 		s.addNewCinema(c, admin);
 		s.addNewUser(cr);
 		s.addNewUser(manager);
-		s.addNewUser(cassiere);
-		ArrayList<Seat> free = new ArrayList<Seat>();
-		free = spettacolo.getFreeSeat();
-		pren.add(free.get(1));
-		pren.add(free.get(2));
-		spettacolo.prenote(pren, cr.getNickname());
-		
+		s.addNewUser(cassiere);	
 	}
 
 	// Scenario principale UC33: Memorizzazione modifiche elenco di spettacoli
@@ -122,7 +114,7 @@ public class UC33 {
 		// 5 - L'attore richiede di inserire un nuovo spettacolo
 		// 6 - Il sistema richiede i dati dello spettacolo
 		// 7 - L'attore inserisce le informazioni
-		Spettacolo2D spett = new Spettacolo2D("spettprova", "03/12/1699", "20:30", 
+		Spettacolo2D spett = new Spettacolo2D("spettprova2", "03/12/1679", "19:30", 
 				"22:30","0", true,"film0",sala);
 		int i = c.searchSpettacolo(spett.getIdMovie()).size();
 		ss.put(spett.getIdSpettacolo(), spett);

@@ -46,8 +46,7 @@ public class UC20 {
 		sala.addSpettacolo(spettacolo);
 		c.addSala(sala);
 		f = new Film("film0", "la fuga", "01/03/2013", "Un tizio fugge e altri lo inseguono.",
-				"Spagna", act,genre, tag,prod,dir);
-		
+				"Spagna", act,genre, tag,prod,dir);	
 		s = new Sistema(admin);
 		admin.setLoggedIn(true);
 		s.addNewCinema(c, admin);

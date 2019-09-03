@@ -1,3 +1,4 @@
+
 package test_funzionali;
 
 import static org.junit.Assert.*;
@@ -38,27 +39,21 @@ public class UC15 {
 		dir = new String[]{"dir1","dir2"};
 		admin = new Admin("Admin0", "Bob", "Brown", "lurbin@em.net", "30/12/1980",
 				"abc0123", "+393339087654", null);
+		s = new Sistema(admin);
 		cr = new ClienteRegistrato("user8","Gino", "Cozzi", "email@gmail.com","15/02/1980",
 				"psw123");
 		c = new Cinema( "0","Ariston", "Sanremo", "Via Puggia 2");
 		sala= new Sala("0", "salaBLU", "011111", 6, 3, 2);
-		spettacolo = new Spettacolo2D("spett1", "03/12/1999", "20:30", "22:30","0", true,"film0",
-				sala);
 		f = new Film("film0", "la fuga", "01/03/2013", "Un tizio fugge e altri lo inseguono.",
 				"Spagna", act,genre, tag,prod,dir);
-		
+		s.addNewFilm(f, admin);
+		spettacolo = new Spettacolo2D("spett1", "03/12/1999", "20:30", "22:30","0", true,"film0",
+				sala);	
 		sala.addSpettacolo(spettacolo);
 		c.addSala(sala);
-	
-	
-	} 
-	@Before
-	public void setUp() throws Exception {
-
-		s = new Sistema(admin);
 		s.addNewCinema(c, admin);
 		s.addNewUser(cr);
-	}
+	} 
 
 	// Scenario principale UC15: L'attore effettua una prenotazione
 	@Test

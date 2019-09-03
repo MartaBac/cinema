@@ -3,8 +3,6 @@ package test_funzionali;
 import static org.junit.Assert.*;
 
 import java.util.ArrayList;
-
-import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -59,8 +57,6 @@ public class UC17 {
 		assertTrue(spettacolo.prenote(pren, crUC17.getNickname()));
 	}
 
-	
-
 	// Scenario principale UC17: L'attore visualizza l'elenco delle sue prenotazioni
 	@Test
 	public void UC17_scenarioPrincipale() {
@@ -82,10 +78,13 @@ public class UC17 {
 		// 2 - Il sistema restituisce l'elenco di prenotazioni dell'attore
 		t = system.searchPrenotazioni(crUC17.getNickname());
 		assertEquals(2,t.size());
-		// 3 - L'attore richiede di visualizzare una prenotazione specifica
-		// Il sistema restituisce le informazioni specifiche di quella prenotazione
-		assertTrue(spettacolo.getPrenotazione("row1column1"));
-		// L'attore richiede di annullare la prenotazione
+		// 3a - L'attore richiede di visualizzare una prenotazione specifica
+		// I - Il sistema restituisce le informazioni specifiche di quella prenotazione
+		assertTrue(t.get(0).length()!=0);
+		// II - L'attore torna indietro
+		// III - Va al punto due dello scenario principale
+		
+		// IIa - L'attore richiede di annullare la prenotazione
 		// Va al caso d'uso UC20 Annullare prenotazione		
 		}
 		

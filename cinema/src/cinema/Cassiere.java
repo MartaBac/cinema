@@ -67,7 +67,7 @@ public class Cassiere extends Utente {
 	/**
 	 * Sets il numero di telefono del Cinema
 	 * 
-	 * @param String numero del telefono
+	 * @param phoneNumber numero del telefono
 	 */
 	public void setPhone(String phoneNumber) {
 		this.phoneNumber = phoneNumber;
@@ -76,7 +76,7 @@ public class Cassiere extends Utente {
 	/**
 	 * Permette di settare lo stato.
 	 * 
-	 * @param boolean status
+	 * @param status stato, true se attivo
 	 */
 	public void setStatus(boolean status) {
 		this.status = status;
@@ -93,7 +93,7 @@ public class Cassiere extends Utente {
 	/**
 	 * Sets l'id del Cinema
 	 * 
-	 * @param String id del cinema
+	 * @param cinemaId id del cinema
 	 */
 	public void setCinemaId(String cinemaId) {
 		this.cinemaId = cinemaId;

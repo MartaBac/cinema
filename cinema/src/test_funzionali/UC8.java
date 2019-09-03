@@ -4,11 +4,9 @@ import static org.junit.Assert.*;
 import java.util.HashMap;
 
 import org.junit.AfterClass;
-import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import cinema.Admin;
-import cinema.Cinema;
 import cinema.Film;
 import cinema.Sistema;
 
@@ -61,8 +59,5 @@ public class UC8 {
 			// 3b - L'attore richiede di effettuare la prenotazione di uno spettacolo
 			// Esecuzione UC15 - Prenotazione
 		}	
-		@AfterClass
-		public static void tearDownAfterClass(){
-			sistema = null;
-		}
+
 }

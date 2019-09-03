@@ -2,7 +2,6 @@ package test_funzionali;
 
 import static org.junit.Assert.*;
 
-import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import cinema.Admin;
@@ -21,10 +20,8 @@ public class UC12 {
 		cr = new ClienteRegistrato("user9","Gino", "Cozzi", "email@gmail.com","15/02/1980",
 				"psw123");
 		s = new Sistema(admin);
-		s.addNewUser(cr);
-		
+		s.addNewUser(cr);	
 	}
-
 
 	// Scenario principale UC12: L'attore visualizza il proprio profilo
 	@Test
@@ -44,6 +41,5 @@ public class UC12 {
 		assertNotNull(cr.showProfile());
 		// 3a - L'attore chede di visualizzare le proprie prenotazioni
 		// Va al caso d'uso UC17: Visualizzazone prenotazioni
-	}
-	
+	}	
 }

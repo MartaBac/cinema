@@ -16,7 +16,7 @@ import cinema.Spettacolo;
 import cinema.Spettacolo2D;
 
 public class SalaTest {
-	static Sala s;
+	Sala s;
 	@Before
 	public void setUp() {
 		s= new Sala("cinema0", "salaBLU", "011111", 6, 3, 2);

@@ -60,7 +60,9 @@ public class Film {
 	 * del film; questo punteggio è ottenuto pesato, cioè a seconda dell'ambito in cui appare la parola
 	 * vale più o meno ai fini del punteggio.
 	 * 
-	 * @param String[] tags
+	 * @param t String[] contenente i tag
+	 * @return intero che rappresenta il numero di occorrenze delle parola cercata nella
+	 * scheda del film
 	 **/
 	public Integer compareTag(String[] t){
 		
@@ -72,14 +74,14 @@ public class Film {
 		for(String e : t){
 			if(e == null)
 				continue;
-			count[0] = count[0] + c.Compare(e, this.title);
-			count[1] = count[1] + c.Compare(e, this.summary);
-			count[2] = count[2] + c.Compare(e, this.country);
-			count[3] = count[3] + c.Compare(e, this.actors);
-			count[4] = count[4] + c.Compare(e, this.genre);
-			count[5] = count[5] + c.Compare(e, this.tags);
-			count[6] = count[6] + c.Compare(e, this.producer);
-			count[7] = count[7] + c.Compare(e, this.director);
+			count[0] = count[0] + c.compare(e, this.title);
+			count[1] = count[1] + c.compare(e, this.summary);
+			count[2] = count[2] + c.compare(e, this.country);
+			count[3] = count[3] + c.compare(e, this.actors);
+			count[4] = count[4] + c.compare(e, this.genre);
+			count[5] = count[5] + c.compare(e, this.tags);
+			count[6] = count[6] + c.compare(e, this.producer);
+			count[7] = count[7] + c.compare(e, this.director);
 		}	
 
 		for(int j=0; j<count.length; j++){
@@ -202,7 +204,7 @@ public class Film {
 	/**
 	 * Sets l'elenco di generi del film.
 	 * 
-	 * @param array di Stringhe contenente i generi
+	 * @param genre array di Stringhe contenente i generi
 	 */
 	public void setGenre(String[] genre) {
 		this.genre = genre;
@@ -220,7 +222,7 @@ public class Film {
 	/**
 	 * Gets l'elenco di tag del film.
 	 * 
-	 * @return array di stringhe contenente i tag del film
+	 * @param tags array di stringhe contenente i tag del film
 	 */
 	public void setTags(String[] tags) {
 		this.tags = tags;

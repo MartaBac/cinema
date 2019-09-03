@@ -38,7 +38,7 @@ public class ClienteRegistrato extends Utente {
 	/**
 	 * Sets lo status.
 	 * 
-	 * @param boolean a cui lo si vuole settare.
+	 * @param b status a cui lo si vuole settare.
 	 */
 	public void setStatus(boolean b) {
 		this.status = b;

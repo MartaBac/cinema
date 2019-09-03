@@ -119,7 +119,7 @@ public abstract class Spettacolo {
 	/**
 	 * Sets la data dello spettacolo
 	 * 
-	 * @param dateShow
+	 * @param dateShow data dello spettacolo
 	 */
 	public void setDateShow(String dateShow) {
 		this.dateShow = dateShow;
@@ -128,7 +128,7 @@ public abstract class Spettacolo {
 	/**
 	 * Sets il costo dei biglietti base
 	 * 
-	 * @param ticketCost
+	 * @param ticketCost costo del biglietto intero
 	 */
 	public static void setTicketCost(BigDecimal ticketCost) {
 		Spettacolo.ticketCost = ticketCost;
@@ -155,7 +155,7 @@ public abstract class Spettacolo {
 	/**
 	 * Sets il costo dei biglietti ridotti
 	 * 
-	 * @param reducedTicketCost
+	 * @param reducedTicketCost prezzo del biglietto ridotto
 	 */
 	public static void setReducedTicketCost(BigDecimal reducedTicketCost) {
 		Spettacolo.reducedTicketCost = reducedTicketCost;
@@ -173,7 +173,7 @@ public abstract class Spettacolo {
 	/**
 	 * Sets l'id della Sala
 	 * 
-	 * @param salaId
+	 * @param salaId id della Sala
 	 */
 	public void setSalaId(String salaId) {
 		this.salaId = salaId;
@@ -209,7 +209,7 @@ public abstract class Spettacolo {
 	/**
 	 * Sets l'id del cinema.
 	 * 
-	 * @param idCinema
+	 * @param idCinema id del cinema
 	 */
 	public void setIdCinema(String idCinema) {
 		this.idCinema = idCinema;
@@ -306,7 +306,7 @@ public abstract class Spettacolo {
 	
 	/** Ritorna i posti ancora liberi - e usabili - per uno spettacolo.
 	 * 
-	 * @return ArrayList<Seat> di posti liberi e usabili
+	 * @return ArrayList di Seat che sono posti liberi e usabili
 	 */
 	public ArrayList<Seat> getFreeSeat(){
 		ArrayList<Seat> seatFree = new ArrayList<Seat>();	
@@ -356,7 +356,9 @@ public abstract class Spettacolo {
 	public boolean getPrenotazione(String idPrenotazione){
 		if(this.prenotazioni.get(idPrenotazione)==null)
 			return false;
+		System.out.println(new String(new char[60]).replace("\0", "-"));
 		System.out.println(this.prenotazioni.get(idPrenotazione).toString());
+		System.out.println(new String(new char[60]).replace("\0", "-"));
 		return true;
 	}
 }
