@@ -1,5 +1,6 @@
 package cinema;
 
+
 /**
  * Permessi esistenti: ADMIN, MANAGER, CASSIERE, USER.
  * Il campo employee dice se si tratta di account dipendenti, mentre permission il
